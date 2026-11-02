@@ -51,7 +51,8 @@
     type: ['1', '2'],
   };
   const LANG_OPTIONS = ['zh', 'tai'];
-  const SETTINGS_DEFAULT = { count: 10, showHanji: true, lang: 'zh', level: LEVEL_DEFAULT };
+  const THEME_OPTIONS = ['system', 'light', 'dark'];
+  const SETTINGS_DEFAULT = { count: 10, showHanji: true, lang: 'zh', theme: 'system', level: LEVEL_DEFAULT };
   const COUNT_OPTIONS = [5, 10, 20, 30];
 
   function normalizeLevel(raw) {
@@ -65,12 +66,14 @@
   const settings = {
     COUNT_OPTIONS,
     LANG_OPTIONS,
+    THEME_OPTIONS,
     get() {
       try {
         const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
         const s = Object.assign({}, SETTINGS_DEFAULT, saved);
         if (!COUNT_OPTIONS.includes(s.count)) s.count = SETTINGS_DEFAULT.count;
         if (!LANG_OPTIONS.includes(s.lang)) s.lang = SETTINGS_DEFAULT.lang;
+        if (!THEME_OPTIONS.includes(s.theme)) s.theme = SETTINGS_DEFAULT.theme;
         s.showHanji = !!s.showHanji;
         s.level = normalizeLevel(s.level);
         return s;
@@ -88,6 +91,25 @@
       return next;
     },
   };
+
+  const THEME_COLOR = { light: '#efefef', dark: '#171c1a' };
+
+  function resolvedTheme(theme) {
+    if (theme === 'dark' || theme === 'light') return theme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    const mode = resolvedTheme(theme == null ? settings.get().theme : theme);
+    document.documentElement.setAttribute('data-theme', mode);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', THEME_COLOR[mode]);
+  }
+
+  applyTheme();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (settings.get().theme === 'system') applyTheme('system');
+  });
 
   // ---------- 錯題本 ----------
   // 格式：{ version: 1, items: { "<單元>|<音檔檔名>": { unit, a, s, h, answer, answerPitch, expectPitch, count, firstAt, lastAt, fixedAt } } }
@@ -161,5 +183,5 @@
     },
   };
 
-  window.LianTailo = Object.assign(window.LianTailo || {}, { GROUPS, UNITS, POOL_PER_GROUP, audioUrl, shuffle, mistakes, settings });
+  window.LianTailo = Object.assign(window.LianTailo || {}, { GROUPS, UNITS, POOL_PER_GROUP, audioUrl, shuffle, mistakes, settings, applyTheme });
 })();

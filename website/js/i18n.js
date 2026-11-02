@@ -58,6 +58,10 @@
     'page.mistakes.doc': { zh: '錯題本｜練台羅', tai: '寫毋著的題目｜練台羅' },
 
     'settings.lang': { zh: '介面語言', tai: '介面語言' },
+    'settings.theme': { zh: '外觀', tai: '外觀' },
+    'settings.theme.system': { zh: '系統', tai: '系統' },
+    'settings.theme.light': { zh: '淺色', tai: '淺色' },
+    'settings.theme.dark': { zh: '深色', tai: '深色' },
     'settings.count': { zh: '每次練習題數', tai: '逐改練習題目數' },
     'settings.hanji': { zh: '題目顯示漢字', tai: '題目顯示漢字' },
     'settings.hanji.desc': { zh: '題目是否顯示對應漢字', tai: '題目敢愛顯示對應漢字' },

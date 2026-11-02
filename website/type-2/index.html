@@ -11,6 +11,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script>
+    (function () {
+      var theme = 'system';
+      try {
+        var saved = JSON.parse(localStorage.getItem('lian-tailo:settings')) || {};
+        if (saved.theme === 'light' || saved.theme === 'dark' || saved.theme === 'system') theme = saved.theme;
+      } catch (e) {}
+      var dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', dark ? '#171c1a' : '#efefef');
+    })();
     if ('serviceWorker' in navigator) {
       var css = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
       var root = css ? css.getAttribute('href').replace(/css\/style\.css(?:\?.*)?$/, '') : './';

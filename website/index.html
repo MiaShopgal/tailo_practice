@@ -11,6 +11,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
+    (function () {
+      var theme = 'system';
+      try {
+        var saved = JSON.parse(localStorage.getItem('lian-tailo:settings')) || {};
+        if (saved.theme === 'light' || saved.theme === 'dark' || saved.theme === 'system') theme = saved.theme;
+      } catch (e) {}
+      var dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', dark ? '#171c1a' : '#efefef');
+    })();
     if ('serviceWorker' in navigator) {
       var css = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
       var root = css ? css.getAttribute('href').replace(/css\/style\.css(?:\?.*)?$/, '') : './';
@@ -126,6 +137,12 @@
         </div>
         <div class="setting-row is-stack">
           <div class="setting-text">
+            <p class="setting-name" data-i18n="settings.theme">外觀</p>
+          </div>
+          <div class="segmented" id="themeSetting" role="radiogroup" data-i18n-aria="settings.theme" aria-label="外觀"></div>
+        </div>
+        <div class="setting-row is-stack">
+          <div class="setting-text">
             <p class="setting-name" data-i18n="settings.count">每次練習題數</p>
           </div>
           <div class="segmented" id="countSetting" role="radiogroup" data-i18n-aria="settings.count" aria-label="每次練習題數"></div>
@@ -182,6 +199,8 @@
 
       const badge = document.getElementById('mistakeCount');
       const langGroup = document.getElementById('langSetting');
+      const themeGroup = document.getElementById('themeSetting');
+      const THEME_LABEL = { system: 'settings.theme.system', light: 'settings.theme.light', dark: 'settings.theme.dark' };
       const countGroup = document.getElementById('countSetting');
       const hanjiSwitch = document.getElementById('hanjiSetting');
       const settingsBtn = document.getElementById('settingsBtn');
@@ -227,6 +246,22 @@
             location.reload();
           });
           langGroup.appendChild(btn);
+        });
+        themeGroup.textContent = '';
+        settings.THEME_OPTIONS.forEach((code) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', String(code === s.theme));
+          btn.className = code === s.theme ? 'is-active' : '';
+          btn.textContent = t(THEME_LABEL[code]);
+          btn.addEventListener('click', () => {
+            if (code === settings.get().theme) return;
+            settings.set({ theme: code });
+            LianTailo.applyTheme(code);
+            renderSettings();
+          });
+          themeGroup.appendChild(btn);
         });
         countGroup.textContent = '';
         settings.COUNT_OPTIONS.forEach((n) => {

@@ -157,7 +157,7 @@
     return `<svg class="sandhi-chart" viewBox="0 0 372 196" role="img" aria-label="${tr('sandhi.chart.aria')}">
       <defs>
         <marker id="sandhiHead" markerUnits="userSpaceOnUse" viewBox="0 0 12 12" refX="0" refY="6" markerWidth="11" markerHeight="11" orient="auto">
-          <path d="M0 1.2 L11 6 L0 10.8 Z" fill="#2b312e"/>
+          <path d="M0 1.2 L11 6 L0 10.8 Z" fill="currentColor"/>
         </marker>
       </defs>
       ${arc('M86 52 H142')}
