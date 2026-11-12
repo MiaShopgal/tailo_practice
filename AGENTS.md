@@ -52,6 +52,7 @@ Every task or feature follows Matt Pocock's disciplined Idea-to-Ship flow backed
 4. Implement (/implement & /tdd)
    - Select the next unblocked ticket from the frontier.
    - Develop test-first: Red → Green → Refactor.
+   - For UI and integration tests, use Jake Wharton's Testing Robot BDD pattern (`/testing-robot`).
        │
        ▼
 5. Review & Pull Request (/code-review & /pr)
