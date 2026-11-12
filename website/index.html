@@ -49,6 +49,14 @@
     </header>
 
     <main class="home-main">
+      <section class="sync-panel card" aria-label="Google 錯題同步">
+        <div class="sync-panel-text">
+          <strong data-i18n="sync.signIn">Google 同步</strong>
+          <span class="sync-status" data-sync-status aria-live="polite"></span>
+        </div>
+        <button class="btn btn-outline sync-button" data-sync-button type="button">Google 同步</button>
+      </section>
+
       <article class="practice-card card" data-type="spell">
         <a class="practice-link" href="spell-part/">
           <div class="unit-icon is-small is-spell" aria-hidden="true">k+á</div>
@@ -180,6 +188,7 @@
   </div>
 
   <script src="js/i18n.js"></script>
+  <script src="js/mistake-sync-core.js"></script>
   <script src="js/common.js"></script>
   <script>
     (function () {
@@ -418,6 +427,10 @@
       }
       render();
       window.addEventListener('pageshow', render);
+      window.addEventListener('lian-tailo:mistakes-change', updateMistakes);
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'lian-tailo:mistakes') updateMistakes();
+      });
     })();
   </script>
 </body>

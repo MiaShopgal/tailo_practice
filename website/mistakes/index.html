@@ -40,6 +40,14 @@
       <span class="icon-btn" aria-hidden="true"></span>
     </header>
 
+    <section class="sync-panel card" aria-label="Google 錯題同步">
+      <div class="sync-panel-text">
+        <strong data-i18n="sync.signIn">Google 同步</strong>
+        <span class="sync-status" data-sync-status aria-live="polite"></span>
+      </div>
+      <button class="btn btn-outline sync-button" data-sync-button type="button">Google 同步</button>
+    </section>
+
     <p class="mistake-scope" id="scopeLabel" hidden></p>
     <div class="chips" id="filters" role="group" data-i18n-aria="mistakes.filters" aria-label="練習" hidden></div>
     <div class="chips chips-levels" id="levelFilters" role="group" hidden></div>
@@ -59,6 +67,7 @@
   </div>
 
   <script src="../js/i18n.js"></script>
+  <script src="../js/mistake-sync-core.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/tones.js"></script>
   <script src="mistakes.js"></script>

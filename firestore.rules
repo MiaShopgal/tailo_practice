@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function ownsHistory(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function validMistake(data) {
+      return data.keys().hasOnly([
+          'key', 'unit', 'a', 's', 'h', 'answer', 'answerPitch', 'expectPitch',
+          'count', 'countsByDevice', 'firstAt', 'lastAt', 'fixedAt',
+          'activityAt', 'activityId', 'activityType', 'deletedAt'
+        ])
+        && data.keys().hasAll(['key', 'unit', 'a', 'deletedAt'])
+        && data.key is string
+        && data.unit is string
+        && data.a is string
+        && (data.deletedAt is int || data.deletedAt is float)
+        && (!('countsByDevice' in data) || data.countsByDevice is map);
+    }
+
+    match /users/{userId}/mistakes/{mistakeId} {
+      allow read: if ownsHistory(userId);
+      allow create, update: if ownsHistory(userId) && validMistake(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -5,6 +5,10 @@
 網頁作者：[Tân Kiàn-tiong](https://kiantiong.com/)  
 專案：https://github.com/luke871016/tailo_practice
 
+## 錯題同步
+
+可選擇以 Google 帳戶同步錯題本；Firebase 設定步驟與 Firestore 規則見 [`docs/firebase-sync.md`](docs/firebase-sync.md)。
+
 ## 授權
 
 本專案的**程式**（`website/` 的網頁與腳本、`scripts/` 的建置程式）以 [創用 CC 姓名標示 4.0（CC BY 4.0）](https://creativecommons.org/licenses/by/4.0/deed.zh-hant) 授權。

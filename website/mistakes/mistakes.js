@@ -236,4 +236,8 @@
   });
 
   window.addEventListener('pageshow', render);
+  window.addEventListener('lian-tailo:mistakes-change', render);
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'lian-tailo:mistakes') render();
+  });
 })();
