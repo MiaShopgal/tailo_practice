@@ -78,6 +78,7 @@
             <p class="answer-verdict" id="answerVerdict"></p>
             <p class="answer-word" id="answerWord"></p>
             <p class="answer-meta" id="answerMeta"></p>
+            <div class="answer-audio" id="answerAudio" hidden></div>
           </div>
         </div>
         <div class="actions" id="drawActions">${actions}</div>
@@ -169,7 +170,7 @@
     const $ = (id) => document.getElementById(id);
     const el = {};
     ['helpBtn', 'quizView', 'resultView', 'progressBar', 'progressText', 'scoreText', 'playBtn', 'stage',
-      'status', 'answerPanel', 'answerVerdict', 'answerWord', 'answerMeta', 'drawActions', 'nextActions',
+      'status', 'answerPanel', 'answerVerdict', 'answerWord', 'answerMeta', 'answerAudio', 'drawActions', 'nextActions',
       'submitBtn', 'nextBtn', 'resultScore', 'resultText', 'reviewWrap', 'reviewList', 'againBtn',
       'helpSheet', 'helpClose', 'toneTable', 'sandhiChart', 'sandhiTable', 'promptRoman', 'promptHanji', 'hintHanji', 'choiceGrid', 'typeInput'].forEach((id) => { el[id] = $(id); });
     el.svg = $('stageSvg');
@@ -449,6 +450,28 @@
       hanji.textContent = item.h;
       el.answerWord.append(hanji);
       el.answerMeta.textContent = r.meta;
+      el.answerAudio.textContent = '';
+      el.answerAudio.hidden = true;
+      if (r.audioParts && r.audioParts.some((part) => part.file)) {
+        r.audioParts.forEach((part) => {
+          const syllable = document.createElement('span');
+          syllable.className = 'answer-audio-syllable';
+          const text = document.createElement('span');
+          text.textContent = part.text;
+          syllable.append(text);
+          if (part.file) {
+            const button = document.createElement('button');
+            button.className = 'answer-audio-play';
+            button.type = 'button';
+            button.setAttribute('aria-label', t('action.play.this'));
+            button.innerHTML = ICON_SPEAKER.replace('<svg ', '<svg aria-hidden="true" ');
+            button.addEventListener('click', () => play(part.file));
+            syllable.append(button);
+          }
+          el.answerAudio.append(syllable);
+        });
+        el.answerAudio.hidden = false;
+      }
 
       el.status.hidden = true;
       el.answerPanel.hidden = false;
