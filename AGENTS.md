@@ -68,14 +68,15 @@ Every task or feature follows Matt Pocock's disciplined Idea-to-Ship flow backed
 
 ## Contributing Upstream (`luke871016/tailo_practice`)
 
-To keep pull requests sent to upstream clean, atomic, and free of fork-specific configuration:
+To keep pull requests sent to upstream clean, atomic, and free of fork-specific configuration, invoke the **`/upstream-pr`** skill or follow its procedure:
 1. Always base upstream PR branches directly on `upstream/main`:
    ```bash
    git fetch upstream
    git checkout -b feature/my-change upstream/main
    ```
 2. Commit only code changes relevant to the upstream feature or bug fix.
-3. Submit the pull request from `feature/my-change` → `upstream/main`.
+3. Verify isolation: run `git diff upstream/main --name-only` to confirm no agent config files (`AGENTS.md`, `CLAUDE.md`, `docs/agents/`) are present.
+4. Submit the pull request from `feature/my-change` → `upstream/main`.
 
 ---
 
