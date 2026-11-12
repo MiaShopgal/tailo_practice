@@ -1,0 +1,3 @@
+# Google-account mistake-history sync
+
+Learners may optionally sign in with Google using Firebase Authentication; Firestore stores mistake history privately per Google account, using the no-cost Spark plan for the first release. Sync only learner mistake history, including full answer and pitch details—not practice preferences or sandhi editorial-review data. On first sign-in, merge device and cloud history while keeping mistake counts accurate across devices; the latest activity determines whether a mistake is fixed or reopened, and deletions propagate. Queue offline changes until reconnection. Signing out retains both device and cloud copies; when a different Google account signs in, ask before merging the device's existing history into that account.
