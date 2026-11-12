@@ -54,6 +54,59 @@
     return i === s.length;
   }
 
+  function typedSyllables(raw, count, entries) {
+    const audioByText = new Map();
+    const forms = [];
+    (entries || []).forEach((entry) => {
+      if (!entry.p || entry.p.length !== 1 || !entry.a) return;
+      const [initial, final, tone] = entry.p[0];
+      const base = `${initial}${final}`;
+      const candidates = new Set([
+        normalizeInput(entry.s),
+        normalizeInput(`${base}${tone}`),
+      ]);
+      candidates.forEach((text) => {
+        if (!text) return;
+        const previous = audioByText.get(text);
+        if (!previous || entry.f > previous.frequency) audioByText.set(text, { file: entry.a, frequency: entry.f });
+        forms.push(text);
+      });
+    });
+    const uniqueForms = [...new Set(forms)].sort((a, b) => b.length - a.length);
+    const separators = /[\s\u00b7\u2027\u30fb_\-\u2010-\u2015\u2212\ufe63\uff0d]+/;
+    const rawParts = String(raw || '').split(separators).filter(Boolean);
+    let parts = rawParts.length > 1 ? rawParts : null;
+
+    if (!parts) {
+      const input = normalizeInput(raw);
+      function splitAt(offset, remaining, memo) {
+        if (remaining === 0) return offset === input.length ? [] : null;
+        const key = `${offset}:${remaining}`;
+        if (memo.has(key)) return memo.get(key);
+        for (const form of uniqueForms) {
+          if (!input.startsWith(form, offset)) continue;
+          const rest = splitAt(offset + form.length, remaining - 1, memo);
+          if (rest) {
+            const result = [input.slice(offset, offset + form.length), ...rest];
+            memo.set(key, result);
+            return result;
+          }
+        }
+        memo.set(key, null);
+        return null;
+      }
+      parts = splitAt(0, count, new Map()) || splitAt(0, 1, new Map()) || [String(raw || '')];
+    }
+
+    return parts.map((text) => {
+      const key = normalizeInput(text);
+      return {
+        text: text.normalize('NFC'),
+        file: audioByText.get(key)?.file || '',
+      };
+    });
+  }
+
   function create() {
     let api = null;
     let input = null;
@@ -100,11 +153,12 @@
           ok,
           verdict: ok ? '' : window.LianTailo.t('type.wrong'),
           meta: ok ? '' : window.LianTailo.t('spell.yours', { answer: typed }),
+          audioParts: ok ? [] : typedSyllables(typed, parts.length, window.TONE_SYLLABLES),
           answer: typed,
         };
       },
     };
   }
 
-  window.TypingMode = { create, tailoInputMatches };
+  window.TypingMode = { create, tailoInputMatches, typedSyllables };
 })();
