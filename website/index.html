@@ -154,6 +154,13 @@
           </div>
           <input class="switch" type="checkbox" id="hanjiSetting" role="switch">
         </label>
+        <button class="setting-row" id="syncBtn" type="button">
+          <div class="setting-text">
+            <p class="setting-name" id="syncName" data-i18n="settings.sync">登入同步紀錄</p>
+            <p class="setting-desc" id="syncDesc" data-i18n="settings.sync.desc">用 Google 帳號登入，在不同裝置同步設定與錯題本</p>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19a4.5 4.5 0 1 0-1.4-8.8A6 6 0 0 0 4.3 12.5 3.5 3.5 0 0 0 6.5 19z"/></svg>
+        </button>
         <button class="setting-row" id="installBtn" type="button">
           <div class="setting-text">
             <p class="setting-name" data-i18n="settings.install">安裝到主畫面</p>
@@ -181,6 +188,7 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/common.js"></script>
+  <script type="module" src="js/sync.js"></script>
   <script>
     (function () {
       const { settings, t } = LianTailo;
@@ -418,6 +426,34 @@
       }
       render();
       window.addEventListener('pageshow', render);
+    })();
+  </script>
+  <script>
+    // 雲端同步：設定面板的登入／登出按鈕
+    (function () {
+      const { t } = LianTailo;
+      const btn = document.getElementById('syncBtn');
+      const name = document.getElementById('syncName');
+      const desc = document.getElementById('syncDesc');
+      function render(user) {
+        if (user) {
+          name.textContent = t('settings.sync.out');
+          desc.textContent = t('settings.sync.as', { name: user.displayName || user.email || '' });
+        } else {
+          name.textContent = t('settings.sync');
+          desc.textContent = t('settings.sync.desc');
+        }
+      }
+      btn.addEventListener('click', () => {
+        if (!window.LianSync) return;
+        const job = window.LianSync.user ? window.LianSync.logout() : window.LianSync.login();
+        Promise.resolve(job).catch((e) => console.error(e));
+      });
+      document.addEventListener('lian-sync:auth', (e) => render(e.detail));
+      // 雲端資料改到本機時重新整理，讓錯題數、主題、語言跟著更新
+      document.addEventListener('lian-sync:pulled', (e) => {
+        if (e.detail && e.detail.changed) location.reload();
+      });
     })();
   </script>
 </body>

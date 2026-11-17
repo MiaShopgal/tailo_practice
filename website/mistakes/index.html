@@ -60,7 +60,13 @@
 
   <script src="../js/i18n.js"></script>
   <script src="../js/common.js"></script>
+  <script type="module" src="../js/sync.js"></script>
   <script src="../js/tones.js"></script>
   <script src="mistakes.js"></script>
+  <script>
+    document.addEventListener('lian-sync:pulled', (e) => {
+      if (e.detail && e.detail.changed) location.reload();
+    });
+  </script>
 </body>
 </html>

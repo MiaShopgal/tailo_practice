@@ -87,6 +87,7 @@
       if (patch && patch.level) next.level = normalizeLevel(Object.assign({}, prev.level, patch.level));
       try {
         localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+        if (window.LianSync) window.LianSync.changed(SETTINGS_KEY);
       } catch (e) { /* 私密瀏覽模式可能無法寫入 */ }
       return next;
     },
@@ -126,6 +127,7 @@
   function writeMistakes(db) {
     try {
       localStorage.setItem(MISTAKES_KEY, JSON.stringify(db));
+      if (window.LianSync) window.LianSync.changed(MISTAKES_KEY);
     } catch (e) { /* 私密瀏覽模式可能無法寫入 */ }
   }
 
