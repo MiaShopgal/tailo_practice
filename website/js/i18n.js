@@ -66,7 +66,7 @@
     'settings.hanji': { zh: '題目顯示漢字', tai: '題目顯示漢字' },
     'settings.hanji.desc': { zh: '題目是否顯示對應漢字', tai: '題目敢愛顯示對應漢字' },
     'settings.sync': { zh: '登入同步紀錄', tai: '登入同步紀錄' },
-    'settings.sync.desc': { zh: '用 Google 帳號登入，在不同裝置同步設定與錯題本', tai: '用 Google 口座登入，佇無仝裝置同步設定佮錯題' },
+    'settings.sync.desc': { zh: '用 Google 帳號登入，同步你的學習進度', tai: '用 Google 口座登入，同步你的學習進度' },
     'settings.sync.out': { zh: '登出', tai: '登出' },
     'settings.sync.as': { zh: '已用 {name} 登入，紀錄會自動同步', tai: '已經用 {name} 登入，紀錄會自動同步' },
     'settings.install': { zh: '安裝到主畫面', tai: '安裝去主畫面' },
