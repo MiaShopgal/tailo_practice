@@ -23,3 +23,9 @@ test('classifies a nasal coda mismatch and a missing tone mark', () => {
 test('separator-only changes do not highlight canonical spelling', () => {
   assert.equal(A.highlightTarget('uàn-thàn', 'uàn thàn').includes('typing-error-char'), false);
 });
+
+test('correct final syllable tone is not highlighted when the first tone differs', () => {
+  const html = A.highlightTarget('uàn-thàn', 'uan2 than3');
+  assert.equal((html.match(/typing-error-char/g) || []).length, 1);
+  assert.match(html, /<span class="typing-error-char">à<\/span>n-thàn$/);
+});

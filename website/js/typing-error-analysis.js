@@ -56,30 +56,62 @@
   // LCS marks only target code points that do not participate in a match.
   function highlightTarget(target, answer) {
     const isSeparator = (ch) => /[\s\-‐‑‒–—―−]/.test(ch);
-    const a = [...String(target).normalize('NFD')].filter((ch) => !isSeparator(ch));
-    const b = [...String(answer).normalize('NFD')].filter((ch) => !isSeparator(ch));
-    const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
-    for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) {
-      dp[i][j] = a[i] === b[j] ? 1 + dp[i + 1][j + 1] : Math.max(dp[i + 1][j], dp[i][j + 1]);
-    }
-    const marked = new Set(); let i = 0; let j = 0;
-    while (i < a.length) {
-      if (j < b.length && a[i] === b[j]) { i++; j++; }
-      else if (j >= b.length || dp[i + 1][j] >= dp[i][j + 1]) marked.add(i++);
-      else j++;
-    }
-    // Separators are intentionally ignored, so present the canonical target unmarked at separators.
-    const raw = [...String(target)]; let normalizedIndex = 0; let html = '';
-    raw.forEach((ch) => {
-      if (isSeparator(ch)) { html += escapeHtml(ch); return; }
-      const chars = [...ch.normalize('NFD')];
-      chars.forEach((part) => {
-        const isWrong = marked.has(normalizedIndex++);
-        const safe = escapeHtml(part);
-        html += isWrong ? `<span class="typing-error-char">${safe}</span>` : safe;
+    const toneMarks = new Set(['\u0301', '\u0300', '\u0302', '\u0304', '\u030d', '\u030c', '\u030b']);
+    const targetParts = String(target).normalize('NFD').split(/([\s\-‐‑‒–—―−]+)/).filter(Boolean);
+    const answerParts = syllables(answer);
+    let syllableIndex = 0;
+    let html = '';
+    targetParts.forEach((part) => {
+      if ([...part].every(isSeparator)) { html += escapeHtml(part); return; }
+      const targetChars = [...part];
+      const targetBaseIndices = [];
+      const targetBase = [];
+      targetChars.forEach((ch, index) => {
+        if (!toneMarks.has(ch) && !/^[1-9]$/.test(ch)) {
+          targetBaseIndices.push(index);
+          targetBase.push(ch);
+        }
       });
+      const answerSyllable = answerParts[syllableIndex++] || '';
+      const parsedTarget = parseSyllable(part);
+      const parsedAnswer = parseSyllable(answerSyllable);
+      const wrong = new Set();
+      if (parsedTarget.base !== parsedAnswer.base) {
+        const a = targetBase;
+        const b = [...parsedAnswer.base];
+        const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+        for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) {
+          dp[i][j] = a[i] === b[j] ? 1 + dp[i + 1][j + 1] : Math.max(dp[i + 1][j], dp[i][j + 1]);
+        }
+        let i = 0; let j = 0;
+        while (i < a.length) {
+          if (j < b.length && a[i] === b[j]) { i++; j++; }
+          else if (j >= b.length || dp[i + 1][j] >= dp[i][j + 1]) wrong.add(targetBaseIndices[i++]);
+          else j++;
+        }
+      }
+      const toneMatches = parsedTarget.tone === parsedAnswer.tone
+        || (parsedTarget.tone === 0 && parsedAnswer.tone === 1)
+        || (parsedTarget.tone === 1 && parsedAnswer.tone === 0);
+      if (!toneMatches) targetChars.forEach((ch, index) => {
+        if (toneMarks.has(ch) || /^[1-9]$/.test(ch)) wrong.add(index);
+      });
+
+      // Keep combining marks with their base letter so a highlighted tone remains legible.
+      for (let i = 0; i < targetChars.length;) {
+        let cluster = targetChars[i];
+        let marked = wrong.has(i);
+        i++;
+        while (i < targetChars.length && /[\u0300-\u036f]/.test(targetChars[i])) {
+          cluster += targetChars[i];
+          marked = marked || wrong.has(i);
+          i++;
+        }
+        const safe = escapeHtml(cluster.normalize('NFC'));
+        html += marked ? `<span class="typing-error-char">${safe}</span>` : safe;
+      }
     });
-    return html.normalize('NFC');
+    return html;
   }
 
   function analyze(records) {
