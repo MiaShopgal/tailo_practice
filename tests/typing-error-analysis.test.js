@@ -16,8 +16,14 @@ test('numeric and diacritic tone representations parse', () => {
 });
 
 test('classifies a nasal coda mismatch and a missing tone mark', () => {
-  assert.ok(A.categories('thāk-tsheh', 'thāng tsheh')[0] === 'coda' || A.categories('thāk-tsheh', 'thāng tsheh').includes('coda'));
+  assert.deepEqual(A.categories('thāk-tsheh', 'thāng tsheh'), ['enteringTone']);
   assert.deepEqual(A.categories('uàn-thàn', 'uan than'), ['missingTone']);
+});
+
+test('classifies entering-tone coda differences separately', () => {
+  assert.deepEqual(A.categories('tsik', 'tsit'), ['enteringTone']);
+  assert.deepEqual(A.categories('tsik', 'tsi'), ['enteringTone']);
+  assert.deepEqual(A.categories('tsim', 'tsin'), ['coda']);
 });
 
 test('separator-only changes do not highlight canonical spelling', () => {

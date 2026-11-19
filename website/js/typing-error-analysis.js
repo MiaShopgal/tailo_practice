@@ -4,7 +4,8 @@
   const CATEGORIES = {
     tone: 'Tone / tone sandhi',
     spelling: 'Initial / medial / vowel spelling',
-    coda: 'Nasal / entering-tone coda',
+    coda: 'Nasal coda mismatch',
+    enteringTone: 'Entering tone (入聲)',
     missingTone: 'Missing tone mark',
   };
 
@@ -42,7 +43,10 @@
       const toneMatches = a.tone === b.tone || (a.tone === 0 && b.tone === 1) || (a.tone === 1 && b.tone === 0);
       if (!toneMatches) result.add(b.tone ? 'tone' : 'missingTone');
       if (a.base !== b.base) {
-        if (a.coda !== b.coda) result.add('coda');
+        if (a.coda !== b.coda) {
+          if (/[ptkh]/.test(a.coda) || /[ptkh]/.test(b.coda)) result.add('enteringTone');
+          else result.add('coda');
+        }
         else result.add('spelling');
       }
     }
