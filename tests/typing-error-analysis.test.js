@@ -29,3 +29,9 @@ test('correct final syllable tone is not highlighted when the first tone differs
   assert.equal((html.match(/typing-error-char/g) || []).length, 1);
   assert.match(html, /<span class="typing-error-char">à<\/span>n-thàn$/);
 });
+
+test('extra numeric tone in the submitted answer is highlighted', () => {
+  const html = A.highlightAnswerExtras('tsuann-san', 'tsuann7 san');
+  assert.match(html, /<span class="typing-error-char">7<\/span>/);
+  assert.equal((html.match(/typing-error-char/g) || []).length, 1);
+});

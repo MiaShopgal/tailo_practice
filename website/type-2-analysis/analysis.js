@@ -30,7 +30,7 @@
       tr.innerHTML = `<td class="analysis-hanzi"></td><td class="analysis-target"></td><td class="analysis-yours"></td><td class="analysis-note"></td><td class="analysis-count"></td>`;
       tr.querySelector('.analysis-hanzi').textContent = r.hanzi;
       tr.querySelector('.analysis-target').innerHTML = A.highlightTarget(r.target, r.answer);
-      tr.querySelector('.analysis-yours').textContent = r.answer;
+      tr.querySelector('.analysis-yours').innerHTML = A.highlightAnswerExtras(r.target, r.answer);
       tr.querySelector('.analysis-note').textContent = labels;
       tr.querySelector('.analysis-count').textContent = String(r.count);
       rows.appendChild(tr);
@@ -39,7 +39,7 @@
       card.querySelector('.analysis-card-hanzi').textContent = r.hanzi;
       card.querySelector('.analysis-count').textContent = `${r.count} attempts`;
       card.querySelector('.analysis-target').innerHTML = A.highlightTarget(r.target, r.answer);
-      card.querySelector('.analysis-yours').textContent = r.answer;
+      card.querySelector('.analysis-yours').innerHTML = A.highlightAnswerExtras(r.target, r.answer);
       card.querySelector('.analysis-note').textContent = labels;
       cards.appendChild(card);
     });
