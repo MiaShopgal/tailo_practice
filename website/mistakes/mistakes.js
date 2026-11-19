@@ -22,6 +22,8 @@
     scope: document.getElementById('scopeLabel'),
     filters: document.getElementById('filters'),
     levels: document.getElementById('levelFilters'),
+    practicePanel: document.getElementById('practicePanel'),
+    practiceActions: document.getElementById('practiceActions'),
     list: document.getElementById('mistakeList'),
     empty: document.getElementById('emptyState'),
     footer: document.getElementById('footer'),
@@ -214,11 +216,28 @@
     return li;
   }
 
+  function renderPracticeActions(records) {
+    el.practiceActions.textContent = '';
+    const byUnit = new Map();
+    records.forEach((record) => byUnit.set(record.unit, (byUnit.get(record.unit) || 0) + 1));
+    byUnit.forEach((count, unit) => {
+      const info = UNITS[unit];
+      if (!info) return;
+      const link = document.createElement('a');
+      link.className = 'btn btn-outline';
+      link.href = `../${info.href}?practice=mistakes`;
+      link.textContent = t('mistakes.practice.unit', { name: levelName(unit), n: count });
+      el.practiceActions.appendChild(link);
+    });
+    el.practicePanel.hidden = byUnit.size === 0;
+  }
+
   function render() {
     const all = mistakes.list();
     const { singlePractice } = renderFilters(all);
     const shown = all.filter((m) => inFilter(m.unit, filter));
 
+    renderPracticeActions(shown);
     el.list.textContent = '';
     shown.forEach((m) => el.list.appendChild(renderItem(m, singlePractice)));
     el.list.hidden = shown.length === 0;

@@ -164,6 +164,7 @@
     const userSettings = window.LianTailo.settings.get();
     const config = Object.assign({ poolSize: 300 }, cfg, { count: userSettings.count });
     const DATA = config.data || [];
+    const mistakesOnly = new URLSearchParams(window.location.search).get('practice') === 'mistakes';
 
     document.title = t('page.doc', { title: config.title, brand: t('brand.short') });
     document.body.insertAdjacentHTML('afterbegin', template(config, mode));
@@ -298,6 +299,13 @@
 
     // 每輪最多一半題目用來複習尚未答對的錯題，其餘照原規則抽新題
     function pickItems() {
+      if (mistakesOnly) {
+        const byAudio = new Map();
+        DATA.forEach((item) => { if (!byAudio.has(item.a)) byAudio.set(item.a, item); });
+        const seen = new Set();
+        return shuffle(mistakes.list().filter((m) => m.unit === config.unit && !seen.has(m.a) && seen.add(m.a))
+          .map((m) => byAudio.get(m.a)).filter(Boolean));
+      }
       const dueCap = Math.min(config.count, Math.max(1, Math.floor(config.count / 2)));
       const review = shuffle(unreviewedItems()).slice(0, dueCap);
       const skip = new Set(review.map((d) => d.a));
@@ -310,6 +318,25 @@
       state.score = 0;
       state.wrong = [];
       showView('quiz');
+      if (!state.items.length && mistakesOnly) {
+        el.progressBar.style.width = '0';
+        el.progressText.textContent = '';
+        el.scoreText.textContent = '';
+        el.playBtn.disabled = true;
+        const top = el.playBtn.closest('.play-wrap, .prompt');
+        if (top) top.hidden = true;
+        el.stage.hidden = true;
+        el.status.hidden = false;
+        setStatus(t('mistakes.practice.empty'));
+        el.answerPanel.hidden = true;
+        el.drawActions.hidden = true;
+        el.nextActions.hidden = true;
+        return;
+      }
+      el.stage.hidden = false;
+      const top = el.playBtn.closest('.play-wrap, .prompt');
+      if (top) top.hidden = false;
+      el.playBtn.disabled = false;
       renderQuestion();
     }
 

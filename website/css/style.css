@@ -1572,6 +1572,9 @@ ol.mark-order li::before {
 .analysis-card-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .analysis-card small { color: var(--ink-soft); display: block; margin-bottom: 3px; }
 .analysis-empty { text-align: center; color: var(--ink-soft); padding: 32px 10px; }
+.mistake-practice-panel { margin: 14px 0; padding: 14px; }
+.mistake-practice-panel h2 { margin: 0 0 10px; font-size: 16px; }
+.mistake-practice-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 @media (max-width: 680px) {
   .analysis-controls { grid-template-columns: 1fr; }
   .analysis-table-wrap { display: none; }
