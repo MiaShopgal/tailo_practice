@@ -2,11 +2,11 @@
   'use strict';
 
   const CATEGORIES = {
-    tone: 'Tone / tone sandhi',
+    sandhi: 'Tone sandhi (變調)',
+    tone: 'Tone (聲調)',
     spelling: 'Initial / medial / vowel spelling',
     coda: 'Nasal coda mismatch',
     enteringTone: 'Entering tone (入聲)',
-    missingTone: 'Missing tone mark',
   };
 
   function syllables(value) {
@@ -31,6 +31,25 @@
     return { base: spelling, coda: codaMatch ? codaMatch[0] : '', tone: digit || toneMark || 0 };
   }
 
+  function sameTone(a, b) {
+    const value = (part) => part.tone || (/[ptkh]/.test(part.coda) ? 4 : 1);
+    return value(a) === value(b);
+  }
+
+  function toneBearerIndex(base, indices) {
+    const pick = (letter, fromEnd) => {
+      const found = [];
+      base.forEach((ch, index) => { if (ch === letter) found.push(indices[index]); });
+      return found.length ? found[fromEnd ? found.length - 1 : 0] : -1;
+    };
+    return pick('a') >= 0 ? pick('a')
+      : pick('e') >= 0 ? pick('e')
+        : pick('o') >= 0 ? pick('o')
+          : (pick('i', true) >= 0 || pick('u', true) >= 0)
+            ? Math.max(pick('i', true), pick('u', true))
+            : pick('m') >= 0 ? pick('m') : pick('g', true);
+  }
+
   function categories(target, answer) {
     const wanted = syllables(target).map(parseSyllable);
     const typed = syllables(answer).map(parseSyllable);
@@ -40,8 +59,10 @@
     for (let i = 0; i < n; i++) {
       const a = wanted[i] || { base: '', tone: 0 };
       const b = typed[i] || { base: '', tone: 0 };
-      const toneMatches = a.tone === b.tone || (a.tone === 0 && b.tone === 1) || (a.tone === 1 && b.tone === 0);
-      if (!toneMatches) result.add(b.tone ? 'tone' : 'missingTone');
+      const toneMatches = sameTone(a, b);
+      if (!toneMatches && !(a.tone === 0 && b.tone === 0)) {
+        result.add(wanted.length >= 2 && typed.length >= 2 && i === 0 ? 'sandhi' : 'tone');
+      }
       if (a.base !== b.base) {
         if (a.coda !== b.coda) {
           if (/[ptkh]/.test(a.coda) || /[ptkh]/.test(b.coda)) result.add('enteringTone');
@@ -94,9 +115,7 @@
           else j++;
         }
       }
-      const toneMatches = parsedTarget.tone === parsedAnswer.tone
-        || (parsedTarget.tone === 0 && parsedAnswer.tone === 1)
-        || (parsedTarget.tone === 1 && parsedAnswer.tone === 0);
+      const toneMatches = sameTone(parsedTarget, parsedAnswer);
       if (!toneMatches) targetChars.forEach((ch, index) => {
         if (toneMarks.has(ch) || /^[1-9]$/.test(ch)) wrong.add(index);
       });
@@ -155,12 +174,14 @@
           else j++;
         }
       }
-      const toneMatches = parsedTarget.tone === parsedAnswer.tone
-        || (parsedTarget.tone === 0 && parsedAnswer.tone === 1)
-        || (parsedTarget.tone === 1 && parsedAnswer.tone === 0);
+      const toneMatches = sameTone(parsedTarget, parsedAnswer);
       if (!toneMatches) answerChars.forEach((ch, index) => {
         if (toneMarks.has(ch) || /^[1-9]$/.test(ch)) wrong.add(index);
       });
+      if (!toneMatches && parsedAnswer.tone === 0) {
+        const nucleusIndex = toneBearerIndex(answerBase, answerBaseIndices);
+        if (nucleusIndex >= 0) wrong.add(nucleusIndex);
+      }
       for (let i = 0; i < answerChars.length;) {
         let cluster = answerChars[i];
         let marked = wrong.has(i);
@@ -184,5 +205,5 @@
     }));
   }
 
-  root.TypingErrorAnalysis = { CATEGORIES, syllables, parseSyllable, categories, highlightTarget, highlightAnswerExtras, analyze };
+  root.TypingErrorAnalysis = { CATEGORIES, syllables, parseSyllable, sameTone, categories, highlightTarget, highlightAnswerExtras, analyze };
 })(typeof window === 'undefined' ? globalThis : window);

@@ -1,10 +1,10 @@
 // 介面語系。
 //
-// 每個條目有 zh（華文）和 tai（台文）。請只改 tai 的字串。
+// 每個條目有 zh（中文）和 tai（台文）。請只改 tai 的字串。
 // tai 留空（''）時，畫面顯示同一條的 zh，所以可以逐句補，沒寫到的不會變成空白。
 // {name} 這類大括號是程式代入的數字或詞，請原樣留著。
 // 句子裡的 HTML 標籤（例如 <span class="roman">）也請留著，只改標籤外面的文字。
-// 語言名稱「華文」「台文」兩條已填好，按鈕才不會是空的；要改寫法可以直接改。
+// 語言名稱「中文」「台文」兩條已填好，按鈕才不會是空的；要改寫法可以直接改。
 (function () {
   'use strict';
 
@@ -13,12 +13,37 @@
   const STRINGS = {
     'brand.short': { zh: '練台羅', tai: '練台羅' },
     'brand.title': { zh: '練台羅 Liān Tâi-lô', tai: '練台羅 Liān Tâi-lô' },
-    'lang.zh': { zh: '華文', tai: '華文' },
+    'lang.zh': { zh: '中文', tai: '中文' },
     'lang.tai': { zh: '台文', tai: '台文' },
 
     'home.subtitle': { zh: '一起練習基本功', tai: '共基本工夫練予在' },
     'home.mistakes': { zh: '錯題本', tai: '簿仔紙' },
     'home.mistakes.count': { zh: '錯題本，{n} 題', tai: '寫毋著的題目，{n} 條' },
+    'mistakes.typingAnalysis': { zh: '打字錯誤分析', tai: '練打字錯誤分析' },
+    'analysis.title': { zh: '打字錯誤分析｜練台羅', tai: '練打字錯誤分析｜練台羅' },
+    'analysis.heading': { zh: '打字錯誤分析', tai: '練打字錯誤分析' },
+    'analysis.intro': { zh: '雙音節詞的第一音節比對變調，末音節比對本調。連字符與空白視為相同的音節分隔符。', tai: '雙音節的詞，頭一音節比對變調，尾一音節比對本調。連字符佮空白當做仝款的音節分隔符。' },
+    'analysis.total': { zh: '{n} 筆錯誤紀錄', tai: '{n} 筆寫毋著的紀錄' },
+    'analysis.category.sandhi': { zh: '變調錯誤', tai: '變調寫毋著' },
+    'analysis.category.tone': { zh: '聲調錯誤', tai: '聲調寫毋著' },
+    'analysis.category.spelling': { zh: '聲母／韻母拼寫錯誤', tai: '聲母／韻母拼寫寫毋著' },
+    'analysis.category.coda': { zh: '鼻音韻尾錯誤', tai: '鼻音韻尾寫毋著' },
+    'analysis.category.enteringTone': { zh: '入聲韻尾錯誤', tai: '入聲韻尾寫毋著' },
+    'analysis.category.all': { zh: '所有類別', tai: '全部類別' },
+    'analysis.filter': { zh: '錯誤類別', tai: '錯誤類別' },
+    'analysis.search': { zh: '搜尋漢字或台羅', tai: '搜尋漢字佮台羅' },
+    'analysis.search.placeholder': { zh: '搜尋', tai: '搜尋' },
+    'analysis.table.hanzi': { zh: '漢字', tai: '漢字' },
+    'analysis.table.target': { zh: '正確台羅', tai: '正確台羅' },
+    'analysis.table.answer': { zh: '你的答案', tai: '你的答案' },
+    'analysis.table.note': { zh: '錯誤類別／簡註', tai: '錯誤類別／簡註' },
+    'analysis.table.attempts': { zh: '錯誤次數', tai: '寫毋著幾改' },
+    'analysis.attempts': { zh: '{n} 次', tai: '{n} 改' },
+    'analysis.card.target': { zh: '正確台羅', tai: '正確台羅' },
+    'analysis.card.answer': { zh: '你的答案', tai: '你的答案' },
+    'analysis.card.note': { zh: '錯誤類別／簡註', tai: '錯誤類別／簡註' },
+    'analysis.empty': { zh: '目前沒有台羅打字錯誤紀錄。', tai: '目前猶未有台羅打字錯誤紀錄。' },
+    'analysis.practice': { zh: '去練習', tai: '去練習' },
     'home.settings': { zh: '練習設定', tai: '練習設定' },
     'home.start': { zh: '開始{name}，{level}', tai: '開始{name}，{level}' },
     'sync.signIn': { zh: 'Google 同步', tai: 'Google 同步' },
@@ -264,6 +289,9 @@
     });
     scope.querySelectorAll('[data-i18n-aria]').forEach((el) => {
       el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+    });
+    scope.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
     });
   }
 

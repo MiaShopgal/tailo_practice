@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#efefef">
-  <title>Taiwan Taigi typing blind-spot analysis</title>
+  <title data-i18n="analysis.title">打字錯誤分析｜練台羅</title>
   <link rel="stylesheet" href="../css/style.css">
   <script>
     (function () {
@@ -16,14 +16,15 @@
 </head>
 <body>
   <main class="app typing-analysis">
-    <header class="topbar"><a class="icon-btn" href="../" aria-label="Home">‹</a><h1 class="topbar-title">Taiwan Taigi typing analysis</h1><a class="analysis-back" href="../type-2/">Practice</a></header>
-    <p class="analysis-intro">Review two-syllable tone and tone sandhi answers. Hyphens and spaces are treated as equivalent separators.</p>
-    <section class="analysis-summary card" aria-live="polite"><strong id="totalErrors">0 errors</strong><div id="categorySummary" class="analysis-categories"></div></section>
-    <div class="analysis-controls"><label>Filter category<select id="categoryFilter"><option value="all">All categories</option></select></label><label>Search Hanzi or Tâi-lô<input id="searchInput" type="search" placeholder="Search"></label></div>
-    <p id="emptyMessage" class="analysis-empty" hidden>No Taiwan Taigi typing errors found yet.</p>
-    <div class="analysis-table-wrap"><table class="analysis-table"><thead><tr><th>Hanzi (漢字)</th><th>Correct Tâi-lô</th><th>Your answer</th><th>Error category / note</th><th>Attempts</th></tr></thead><tbody id="analysisRows"></tbody></table></div>
+    <header class="topbar"><a class="icon-btn" href="../" data-i18n-aria="nav.home" aria-label="回首頁">‹</a><h1 class="topbar-title" data-i18n="analysis.heading">打字錯誤分析</h1><a class="analysis-back" href="../type-2/" data-i18n="analysis.practice">去練習</a></header>
+    <p class="analysis-intro" data-i18n="analysis.intro">複習雙音節本調與變調的打字錯誤。比較時會將連字符與空白視為相同的音節分隔符。</p>
+    <section class="analysis-summary card" aria-live="polite"><strong id="totalErrors"></strong><div id="categorySummary" class="analysis-categories"></div></section>
+    <div class="analysis-controls"><label><span data-i18n="analysis.filter">錯誤類別</span><select id="categoryFilter"><option value="all" data-i18n="analysis.category.all">所有類別</option></select></label><label><span data-i18n="analysis.search">搜尋漢字或台羅</span><input id="searchInput" type="search" data-i18n-placeholder="analysis.search.placeholder" placeholder="搜尋"></label></div>
+    <p id="emptyMessage" class="analysis-empty" data-i18n="analysis.empty" hidden>目前沒有台羅打字錯誤紀錄。</p>
+    <div class="analysis-table-wrap"><table class="analysis-table"><thead><tr><th data-i18n="analysis.table.hanzi">漢字</th><th data-i18n="analysis.table.target">正確台羅</th><th data-i18n="analysis.table.answer">你的答案</th><th data-i18n="analysis.table.note">錯誤類別／簡註</th><th data-i18n="analysis.table.attempts">錯誤次數</th></tr></thead><tbody id="analysisRows"></tbody></table></div>
     <div id="analysisCards" class="analysis-cards"></div>
   </main>
+  <script src="../js/i18n.js"></script>
   <script src="../js/mistake-sync-core.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/typing-error-analysis.js"></script>
