@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#efefef">
+  <title>Taiwan Taigi typing blind-spot analysis</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    (function () {
+      var theme = 'system';
+      try { var saved = JSON.parse(localStorage.getItem('lian-tailo:settings')) || {}; if (['light','dark','system'].includes(saved.theme)) theme = saved.theme; } catch (e) {}
+      document.documentElement.setAttribute('data-theme', theme === 'dark' || (theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+    })();
+  </script>
+</head>
+<body>
+  <main class="app typing-analysis">
+    <header class="topbar"><a class="icon-btn" href="../" aria-label="Home">‹</a><h1 class="topbar-title">Taiwan Taigi typing analysis</h1><a class="analysis-back" href="../type-2/">Practice</a></header>
+    <p class="analysis-intro">Review two-syllable tone and tone sandhi answers. Hyphens and spaces are treated as equivalent separators.</p>
+    <section class="analysis-summary card" aria-live="polite"><strong id="totalErrors">0 errors</strong><div id="categorySummary" class="analysis-categories"></div></section>
+    <div class="analysis-controls"><label>Filter category<select id="categoryFilter"><option value="all">All categories</option></select></label><label>Search Hanzi or Tâi-lô<input id="searchInput" type="search" placeholder="Search"></label></div>
+    <p id="emptyMessage" class="analysis-empty" hidden>No Taiwan Taigi typing errors found yet.</p>
+    <div class="analysis-table-wrap"><table class="analysis-table"><thead><tr><th>Hanzi (漢字)</th><th>Correct Tâi-lô</th><th>Your answer</th><th>Error category / note</th><th>Attempts</th></tr></thead><tbody id="analysisRows"></tbody></table></div>
+    <div id="analysisCards" class="analysis-cards"></div>
+  </main>
+  <script src="../js/common.js"></script>
+  <script src="../js/typing-error-analysis.js"></script>
+  <script src="analysis.js"></script>
+</body>
+</html>
