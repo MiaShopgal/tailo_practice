@@ -1,4 +1,4 @@
-// 練習單元共用外殼：出題流程、畫筆捕捉、音檔、作答回饋、結果、錯題本、聲調說明
+// 練習單元共用外殼：出題流程、畫筆捕捉、音檔、作答回饋、結果、簿仔紙、聲調說明（help.js）
 //
 // 各單元以「模式」掛上來，模式物件需提供：
 //   top: 'listen'（先聽音檔再作答）或 'prompt'（先看音節與漢字，作答後才播放）
@@ -10,8 +10,7 @@
   'use strict';
 
   const {
-    audioUrl, shuffle, mistakes, TONES, TONE_BY_NUMBER, SANDHI_RULES,
-    miniPitchSvg, pitchCompare, sandhiChartSvg, t, sandhiNote,
+    audioUrl, shuffle, mistakes, pitchCompare, t,
   } = window.LianTailo;
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const MIN_STROKE = 14;
@@ -109,51 +108,8 @@
           <h2 class="topbar-title" id="helpTitle">${t('nav.help')}</h2>
           <button class="icon-btn" id="helpClose" type="button" aria-label="${t('nav.back')}">${ICON_BACK}</button>
         </header>
-        <div class="segmented help-tabs" role="tablist" aria-label="${t('aria.help.tabs')}">
-          <button type="button" role="tab" id="helpTabTone" aria-controls="helpPanelTone" aria-selected="true" class="is-active">${t('help.tab.tone')}</button>
-          <button type="button" role="tab" id="helpTabMark" aria-controls="helpPanelMark" aria-selected="false">${t('help.tab.mark')}</button>
-          <button type="button" role="tab" id="helpTabSandhi" aria-controls="helpPanelSandhi" aria-selected="false">${t('help.tab.sandhi')}</button>
-        </div>
-        <div class="help-body">
-        <div id="helpPanelTone" role="tabpanel" aria-labelledby="helpTabTone">
-          <div class="tone-grid" id="toneTable"></div>
-          <p class="sheet-text">${t('help.tone.lead', { note: t('note.tone8') })}</p>
-        </div>
-        <div id="helpPanelMark" role="tabpanel" aria-labelledby="helpTabMark" hidden>
-          <section class="mark-block">
-            <h3>${t('help.mark.h1')}</h3>
-            <p class="sheet-text">${t('help.mark.p1')}</p>
-            <ul class="mark-order">
-              <li><span class="roman">oo</span><span class="mark-ex">koo → kóo</span></li>
-              <li><span class="roman">ng</span><span class="mark-ex">ng → ńg</span></li>
-              <li><span class="roman">m</span><span class="mark-ex">m → ḿ</span></li>
-            </ul>
-          </section>
-          <section class="mark-block">
-            <h3>${t('help.mark.h2')}</h3>
-            <p class="sheet-text">${t('help.mark.p2')}</p>
-            <ol class="mark-order">
-              <li><span class="mark-key roman">a</span><span class="mark-ex">ai → ái、au → áu、ia → iá、ua → uá、iau → iáu</span></li>
-              <li><span class="mark-key"><span class="roman">o</span>、<span class="roman">e</span></span><span class="mark-ex">io → ió、ue → ué</span></li>
-              <li><span class="mark-key"><span class="roman">i</span>、<span class="roman">u</span></span><span class="mark-ex">ki → kí、ku → kú</span></li>
-            </ol>
-          </section>
-          <section class="mark-block">
-            <h3>${t('help.mark.h3')}</h3>
-            <p class="sheet-text">${t('help.mark.p3')}</p>
-            <ul class="mark-order">
-              <li><span class="roman">iu</span><span class="mark-ex">kiu → kiú</span></li>
-              <li><span class="roman">ui</span><span class="mark-ex">kui → kuí</span></li>
-            </ul>
-          </section>
-          <p class="sheet-text">${t('help.mark.plain')}</p>
-        </div>
-        <div id="helpPanelSandhi" role="tabpanel" aria-labelledby="helpTabSandhi" hidden>
-          <div class="sandhi-chart-wrap card" id="sandhiChart"></div>
-          <p class="sheet-text">${t('help.sandhi.lead')}</p>
-          <div class="sandhi-table card" id="sandhiTable"></div>
-          <p class="sheet-text">${t('help.sandhi.tail')}</p>
-        </div>
+        ${window.LianTailo.help.tabsMarkup()}
+        <div class="help-body">${window.LianTailo.help.panelsMarkup()}
         </div>
       </div>
     </div>`;
@@ -171,7 +127,7 @@
     ['helpBtn', 'quizView', 'resultView', 'progressBar', 'progressText', 'scoreText', 'playBtn', 'stage',
       'status', 'answerPanel', 'answerVerdict', 'answerWord', 'answerMeta', 'drawActions', 'nextActions',
       'submitBtn', 'nextBtn', 'resultScore', 'resultText', 'reviewWrap', 'reviewList', 'againBtn',
-      'helpSheet', 'helpClose', 'toneTable', 'sandhiChart', 'sandhiTable', 'promptRoman', 'promptHanji', 'hintHanji', 'choiceGrid', 'typeInput'].forEach((id) => { el[id] = $(id); });
+      'helpSheet', 'helpClose', 'promptRoman', 'promptHanji', 'hintHanji', 'choiceGrid', 'typeInput'].forEach((id) => { el[id] = $(id); });
     el.svg = $('stageSvg');
 
     const state = {
@@ -251,7 +207,7 @@
 
     // ---------- 出題 ----------
 
-    // 本單元答錯過、之後還沒答對的題目。錯題本只存音檔檔名，題目內容從題庫補回
+    // 本單元答錯過、之後還沒答對的題目。簿仔紙只存音檔檔名，題目內容從題庫補回
     function unreviewedItems() {
       const byAudio = new Map();
       DATA.forEach((d) => {
@@ -509,94 +465,7 @@
       showView('result');
     }
 
-    // ---------- 說明面板 ----------
-
-    function pitchText(value) {
-      return String(value).replace(/0$/, '');
-    }
-
-    function toneLabel(tone) {
-      return t('tone.nth', { n: tone });
-    }
-
-    function buildHelp() {
-      const toneByNumber = {};
-      TONES.forEach((tone) => { toneByNumber[tone.tone] = tone; });
-      [1, 2, 3, 4, 5, 6, 7, 8].forEach((n) => {
-        const tone = toneByNumber[n];
-        if (!tone) {
-          const gap = document.createElement('div');
-          gap.className = 'tone-cell-gap';
-          gap.setAttribute('aria-hidden', 'true');
-          el.toneTable.appendChild(gap);
-          return;
-        }
-        const cell = document.createElement('button');
-        cell.type = 'button';
-        cell.className = 'tone-cell';
-        cell.innerHTML = `
-          <span class="tone-cell-no">${tone.tone}</span>
-          <span class="tone-cell-name">${t('toneName.' + tone.tone)}</span>
-          <span class="tone-cell-word"><b></b> <span class="roman"></span></span>
-          ${miniPitchSvg(tone.pitch)}
-          <span class="tone-cell-value">${pitchText(tone.pitch)}</span>`;
-        cell.querySelector('b').textContent = tone.hanji;
-        cell.querySelector('.roman').textContent = tone.s;
-        cell.setAttribute('aria-label', t('help.listen', { n: tone.tone, hanji: tone.hanji, s: tone.s }));
-        cell.addEventListener('click', () => play(tone.a));
-        el.toneTable.appendChild(cell);
-      });
-
-      el.sandhiChart.innerHTML = sandhiChartSvg();
-      SANDHI_RULES.forEach((r) => {
-        const base = r.base || Number(r.from);
-        const citation = TONE_BY_NUMBER[base].pitch;
-        const changedName = /^\d+$/.test(String(r.to)) ? toneLabel(r.to) : sandhiNote(r.to);
-        const row = document.createElement('div');
-        row.className = 'sandhi-row';
-        const sandhiPlay = r.wa
-          ? `<button type="button" class="sandhi-play" data-audio="sandhi">${r.word}</button>`
-          : `<span class="sandhi-missing">${t('sandhi.missing')}</span>`;
-        row.innerHTML = `
-          <div class="sandhi-word">
-            <strong></strong>
-            <span class="roman"></span>
-            <small>${toneLabel(base)}${r.note ? `・${sandhiNote(r.note)}` : ''}</small>
-          </div>
-          <div class="sandhi-pitch is-changed">
-            <small>${t('sandhi.changed', { name: changedName })}</small>
-            ${miniPitchSvg(r.pitch)}
-            <b>${pitchText(r.pitch)}</b>
-            ${sandhiPlay}
-          </div>
-          <div class="sandhi-pitch">
-            <small>${t('sandhi.base', { name: toneLabel(base) })}</small>
-            ${miniPitchSvg(citation)}
-            <b>${pitchText(citation)}</b>
-            <button type="button" class="sandhi-play" data-audio="base"></button>
-          </div>`;
-        row.querySelector('strong').textContent = r.word;
-        row.querySelector('.roman').textContent = r.ws;
-        row.querySelector('[data-audio="base"]').textContent = r.hanji;
-        const sandhiBtn = row.querySelector('[data-audio="sandhi"]');
-        if (sandhiBtn) sandhiBtn.addEventListener('click', () => play(r.wa));
-        row.querySelector('[data-audio="base"]').addEventListener('click', () => play(r.a));
-        el.sandhiTable.appendChild(row);
-      });
-
-      const tabs = [...el.helpSheet.querySelectorAll('[role="tab"]')];
-      const panels = [...el.helpSheet.querySelectorAll('[role="tabpanel"]')];
-      tabs.forEach((tab, i) => {
-        tab.addEventListener('click', () => {
-          tabs.forEach((t, j) => {
-            const on = j === i;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', String(on));
-            panels[j].hidden = !on;
-          });
-        });
-      });
-    }
+    // ---------- 說明面板（內容見 help.js） ----------
 
     const openHelp = () => { el.helpSheet.hidden = false; };
     const closeHelp = () => { el.helpSheet.hidden = true; };
@@ -669,7 +538,7 @@
     });
 
     mode.mount(api);
-    buildHelp();
+    window.LianTailo.help.build(el.helpSheet, play);
     startSession();
   }
 

@@ -9,7 +9,7 @@
   } = window.LianTailo;
 
   const CITATIONS = TONES.map((t) => t.pitch);
-  const SANDHI_PITCHES = ['33', '55', '53', '11', '550', '110'];
+  const SANDHI_PITCHES = ['33', '55', '53', '11', '550', '110', '330'];
   const FIRST_PITCHES = Array.from(new Set(SANDHI_PITCHES.concat(CITATIONS)));
   const CHOICE_KEYS = ['1', '2', '3', '4'];
 
@@ -59,7 +59,7 @@
     let from = String(tone1);
     if (tone1 === 4 || tone1 === 8) from += final1.endsWith('h') ? 'h' : 'ptk';
     const named = PITCH_NAME[item.sd];
-    const to = named === '高促' || named === '低促' ? pitchLabel(item.sd) : (named || item.sd);
+    const to = named === '高促' || named === '低促' || named === '中促' ? pitchLabel(item.sd) : (named || item.sd);
     return `${from} → ${to}`;
   }
 
@@ -135,9 +135,13 @@
           else if (secondOk) verdict = answer[0] === citation(tone1) ? t('pitch.wrong.need') : t('pitch.wrong.first');
           else verdict = t('pitch.wrong.both');
         }
-        meta = t('pitch.meta.sandhi', { rule: sandhiRuleText(item), n: tone2 });
-        if (tone1 === 5) notes.push(t('note.sandhi5'));
-        if (tone2 === 8) notes.push(t('note.tone8'));
+        if (item.ia) {
+          meta = t('pitch.meta.aSandhi', { rule: sandhiRuleText(item) });
+        } else {
+          meta = t('pitch.meta.sandhi', { rule: sandhiRuleText(item), n: tone2 });
+          if (tone1 === 5) notes.push(t('note.sandhi5'));
+          if (tone2 === 8) notes.push(t('note.tone8'));
+        }
       }
       if (notes.length) meta += `\n${notes.join('；')}`;
 

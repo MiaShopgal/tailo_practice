@@ -1,3 +1,4 @@
+// 簿仔紙：首頁「簿仔紙」分頁的錯題清單
 (function () {
   'use strict';
 
@@ -226,6 +227,8 @@
     el.footer.hidden = shown.length === 0;
     el.hint.hidden = !shown.some((m) => m.fixedAt > m.lastAt);
     el.clearBtn.textContent = filter === 'all' ? t('mistakes.clear.all') : t('mistakes.clear.scope', { scope: scopeText(filter) });
+    // 首頁導覽列的題數標記跟著更新
+    document.dispatchEvent(new CustomEvent('lian-mistakes:render', { detail: { count: all.length } }));
   }
 
   el.clearBtn.addEventListener('click', () => {

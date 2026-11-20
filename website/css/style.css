@@ -134,8 +134,8 @@ a { color: inherit; text-decoration: none; }
   .home-header > div:first-child { flex: 1; min-width: 0; }
 
   .home-title {
-    /* 扣掉頁面內距與右側兩個圖示後，讓標題在約 320–430px 的手機寬度維持單行 */
-    font-size: clamp(20px, calc((100vw - 148px) / 8.7), 34px);
+    /* 扣掉頁面內距與右側設定圖示後，讓標題在約 320–430px 的手機寬度維持單行 */
+    font-size: clamp(20px, calc((100vw - 108px) / 8.7), 34px);
     letter-spacing: 0.03em;
   }
 }
@@ -154,8 +154,6 @@ a { color: inherit; text-decoration: none; }
   flex: none;
   margin-right: -8px;
 }
-
-.home-tool { position: relative; }
 
 .home-main {
   display: flex;
@@ -246,14 +244,15 @@ a { color: inherit; text-decoration: none; }
   font-variant-numeric: tabular-nums;
 }
 
-.count-badge.home-badge {
+.count-badge.tabbar-badge {
   position: absolute;
-  top: 2px;
-  right: 0;
+  top: -5px;
+  left: calc(100% - 9px);
   min-width: 18px;
   height: 18px;
   padding: 0 5px;
   font-size: 11px;
+  font-weight: 600;
   pointer-events: none;
 }
 
@@ -271,6 +270,66 @@ a { color: inherit; text-decoration: none; }
 .unit-desc { margin: 2px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.5; }
 
 .unit-chevron { flex: none; margin-top: 1px; color: var(--muted); }
+
+/* ---------- 首頁分頁與底部導覽列 ---------- */
+
+.app.has-tabbar { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+
+.tab-panel { display: flex; flex-direction: column; }
+
+.tab-header { padding: calc(32px + env(safe-area-inset-top)) 0 16px; }
+
+.tab-title {
+  margin: 0;
+  font-family: var(--font-iansui);
+  font-size: 28px;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+
+.learn-body .help-tabs { margin: 0 0 16px; }
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+  background: var(--card);
+  border-top: 1px solid var(--line);
+}
+
+.tabbar-inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  gap: 4px;
+}
+
+.tabbar-item {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 0 3px;
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.tabbar-item:active { background: var(--press); }
+
+.tabbar-item.is-active { color: var(--primary); font-weight: 600; }
+
+.tabbar-icon { position: relative; display: grid; place-items: center; }
 
 /* ---------- 頂部列 ---------- */
 
@@ -855,6 +914,22 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 10px;
 }
 
+.sandhi-row.is-compare { grid-template-columns: 3.6em 1fr 1fr 1fr; padding: 8px 6px 8px 10px; }
+
+.sandhi-row.is-compare .sandhi-word small { white-space: nowrap; }
+
+/* 仔前變調表：每格留內距，跟一般變調不同的規則只在「仔前」那格加圓角底色，不碰到外框 */
+.sandhi-row.is-compare { padding-top: 4px; padding-bottom: 4px; }
+
+.sandhi-row.is-compare .sandhi-pitch { padding: 6px 2px; border-radius: 12px; }
+
+.sandhi-row.is-diff .sandhi-pitch.is-changed { background: var(--edit-soft); }
+
+.sandhi-row.is-diff .sandhi-pitch.is-changed small,
+.sandhi-row.is-diff .sandhi-pitch.is-changed b { color: var(--edit-ink); }
+
+.sandhi-row.is-diff .sandhi-pitch.is-changed .sandhi-play { background: var(--surface); }
+
 .sandhi-row + .sandhi-row { border-top: 1px solid var(--line); }
 
 .sandhi-word { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
@@ -1160,7 +1235,7 @@ button.setting-row:active { background: var(--press); }
 
 .switch:focus-visible { outline: 2px solid var(--primary-line); outline-offset: 2px; }
 
-/* ---------- 錯題本 ---------- */
+/* ---------- 簿仔紙 ---------- */
 
 .chips {
   display: flex;
@@ -1504,6 +1579,8 @@ ol.mark-order li::before {
 
 .sheet-text { margin: 16px 2px 0; color: var(--ink-soft); font-size: 14px; }
 
+.sheet-text.is-first { margin-top: 0; }
+
 .sheet-text strong { color: var(--ink); font-weight: 600; }
 
 .sheet-text .roman { font-family: var(--font-iansui); font-weight: 400; font-synthesis: none; }
@@ -1513,5 +1590,6 @@ ol.mark-order li::before {
 @keyframes slide-up { from { transform: translateY(40px); opacity: 0.4; } }
 
 @media (min-width: 560px) {
-  .home-header { padding-top: calc(48px + env(safe-area-inset-top)); }
+  .home-header,
+  .tab-header { padding-top: calc(48px + env(safe-area-inset-top)); }
 }

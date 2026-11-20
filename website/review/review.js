@@ -6,7 +6,7 @@
   const DATA = window.SANDHI_WORDS || [];
   const STORAGE_KEY = 'lian-tailo:review:sandhi';
   const POOL_PER_RULE = window.LianTailo.POOL_PER_GROUP.sandhiRule;
-  const EDIT_PITCHES = ['33', '55', '53', '11', '550', '110', '13', '320', '540'];
+  const EDIT_PITCHES = ['33', '55', '53', '11', '550', '110', '330', '13', '320', '540'];
   const STATUS_TEXT = { ok: '確認', edit: '修改', exclude: '排除' };
   const BADGE_TEXT = { ok: '已確認', edit: '已修改', exclude: '已排除' };
 

@@ -36,6 +36,7 @@
   <script src="../js/common.js"></script>
   <script type="module" src="../js/sync.js"></script>
   <script src="../js/tones.js"></script>
+  <script src="../js/help.js"></script>
   <script src="../js/quiz-shell.js"></script>
   <script src="../js/mode-pitch-choice.js"></script>
   <script>
@@ -43,7 +44,7 @@
       {
         unit: 'pitch-2',
         title: LianTailo.t('page.pitch.2'),
-        data: window.SANDHI_WORDS.filter((d) => !d.x),
+        data: LianTailo.sandhiData(),
         groupBy: (d) => d.rule,
         poolPerGroup: LianTailo.POOL_PER_GROUP.sandhiRule,
       },

@@ -1,4 +1,4 @@
-// 雲端同步：登入後把設定與錯題本存到 Firestore users/{uid}
+// 雲端同步：登入後把設定與簿仔紙存到 Firestore users/{uid}
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup,
          signInWithRedirect, signOut } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
@@ -23,7 +23,7 @@ const db = getFirestore(app);
 const readLS = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
 const writeLS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
 
-// 錯題本逐題合併：同一題保留 lastAt 較新的那份
+// 簿仔紙逐題合併：同一題保留 lastAt 較新的那份
 function mergeMistakes(a, b) {
   const items = Object.assign({}, a?.items);
   for (const [key, it] of Object.entries(b?.items || {})) {

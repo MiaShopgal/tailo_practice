@@ -4,7 +4,7 @@
   const AUDIO_BASE = 'https://static.kiantiong.com/sutiau/';
   const MISTAKES_KEY = 'lian-tailo:mistakes';
 
-  // 錯題本的收納跟首頁標題同一套：先分練習，再分難度。新增單元時兩邊一起登記
+  // 簿仔紙的收納跟首頁標題同一套：先分練習，再分難度。新增單元時兩邊一起登記
   const GROUPS = [
     { id: 'spell', name: '練拼寫', units: ['spell-1', 'spell-2', 'spell-3'] },
     { id: 'tone', name: '標聲調', units: ['tone-1', 'tone-2'] },
@@ -52,7 +52,8 @@
   };
   const LANG_OPTIONS = ['zh', 'tai'];
   const THEME_OPTIONS = ['system', 'light', 'dark'];
-  const SETTINGS_DEFAULT = { count: 10, showHanji: true, lang: 'zh', theme: 'system', level: LEVEL_DEFAULT };
+  const A_SANDHI_OPTIONS = ['off', 'on', 'drill']; // 仔前變調：關、開、特訓（只出仔前變調）
+  const SETTINGS_DEFAULT = { count: 10, showHanji: true, lang: 'zh', theme: 'system', aSandhi: 'off', level: LEVEL_DEFAULT };
   const COUNT_OPTIONS = [5, 10, 20, 30];
 
   function normalizeLevel(raw) {
@@ -67,6 +68,7 @@
     COUNT_OPTIONS,
     LANG_OPTIONS,
     THEME_OPTIONS,
+    A_SANDHI_OPTIONS,
     get() {
       try {
         const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
@@ -74,6 +76,7 @@
         if (!COUNT_OPTIONS.includes(s.count)) s.count = SETTINGS_DEFAULT.count;
         if (!LANG_OPTIONS.includes(s.lang)) s.lang = SETTINGS_DEFAULT.lang;
         if (!THEME_OPTIONS.includes(s.theme)) s.theme = SETTINGS_DEFAULT.theme;
+        if (!A_SANDHI_OPTIONS.includes(s.aSandhi)) s.aSandhi = SETTINGS_DEFAULT.aSandhi;
         s.showHanji = !!s.showHanji;
         s.level = normalizeLevel(s.level);
         return s;
@@ -92,6 +95,13 @@
       return next;
     },
   };
+
+  // 雙音節變調題庫，依「仔前變調」設定篩選
+  function sandhiData() {
+    const mode = settings.get().aSandhi;
+    return (window.SANDHI_WORDS || []).filter((d) => !d.x
+      && (mode === 'drill' ? d.ia : mode === 'on' || !d.ia));
+  }
 
   const THEME_COLOR = { light: '#efefef', dark: '#171c1a' };
 
@@ -112,7 +122,7 @@
     if (settings.get().theme === 'system') applyTheme('system');
   });
 
-  // ---------- 錯題本 ----------
+  // ---------- 簿仔紙 ----------
   // 格式：{ version: 1, items: { "<單元>|<音檔檔名>": { unit, a, s, h, answer, answerPitch, expectPitch, count, firstAt, lastAt, fixedAt } } }
   // answer 為文字版的作答；音值題另存 answerPitch、expectPitch（各音節的音值陣列）以畫出音值圖
 
@@ -153,7 +163,7 @@
       writeMistakes(db);
     },
 
-    // 錯過的題目之後答對，記下時間，錯題本會標示「已答對」
+    // 錯過的題目之後答對，記下時間，簿仔紙會標示「已答對」
     markCorrect(unit, item) {
       const db = readMistakes();
       const entry = db.items[`${unit}|${item.a}`];
@@ -185,5 +195,5 @@
     },
   };
 
-  window.LianTailo = Object.assign(window.LianTailo || {}, { GROUPS, UNITS, POOL_PER_GROUP, audioUrl, shuffle, mistakes, settings, applyTheme });
+  window.LianTailo = Object.assign(window.LianTailo || {}, { GROUPS, UNITS, POOL_PER_GROUP, audioUrl, shuffle, mistakes, settings, applyTheme, sandhiData });
 })();
