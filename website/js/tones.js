@@ -154,16 +154,16 @@
     const label = (x, y, t) => `<text class="sandhi-chart-label" x="${x}" y="${y}">${t}</text>`;
     const tr = window.LianTailo.t;
     const note = window.LianTailo.sandhiNote;
-    return `<svg class="sandhi-chart" viewBox="0 0 372 196" role="img" aria-label="${tr('sandhi.chart.aria')}">
+    return `<svg class="sandhi-chart" viewBox="17 6 372 196" role="img" aria-label="${tr('sandhi.chart.aria')}">
       <defs>
         <marker id="sandhiHead" markerUnits="userSpaceOnUse" viewBox="0 0 12 12" refX="0" refY="6" markerWidth="11" markerHeight="11" orient="auto">
           <path d="M0 1.2 L11 6 L0 10.8 Z" fill="currentColor"/>
         </marker>
       </defs>
       ${arc('M86 52 H142')}
-      ${arc('M164 74 V129')}
+      ${arc('M164 68 V125')}
       ${arc('M142 152 H87')}
-      ${arc('M64 130 V74')}
+      ${arc('M64 136 V79')}
       ${arc('M102.2 96.4 L80.3 70.9')}
       ${arc('M125.8 96.4 L147.7 70.9')}
       ${arc('M228 52 H186')}
