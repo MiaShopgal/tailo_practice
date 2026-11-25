@@ -35,8 +35,31 @@
     { from: '8ptk', to: '低促', pitch: '110', base: 8, note: '非 -h', hanji: '日', s: 'ji̍t', a: '801(1)', word: '日子', ws: 'ji̍t-tsí', wa: '828(1)' },
   ];
 
+  // 仔前變調規則（說明面板用）。欄位同 SANDHI_RULES，例詞取自 sandhi-words.js 的仔前變調詞
+  // g 開頭的欄位是同一個前字在一般變調的對比詞：gto 變調後的調、gpitch 音值、gword 例詞、gws 羅馬字、gwa 音檔
+  const A_SANDHI_RULES = [
+    { from: '1', to: '7', pitch: '33', hanji: '豬', s: 'ti', a: '11384(1)', word: '豬仔', ws: 'ti-á', wa: '11404(1)',
+      gto: '7', gpitch: '33', gword: '豬肉', gws: 'ti-bah', gwa: '11411(1)' },
+    { from: '2', to: '1', pitch: '55', hanji: '狗', s: 'káu', a: '4329(1)', word: '狗仔', ws: 'káu-á', wa: '4337(1)',
+      gto: '1', gpitch: '55', gword: '狗蟻', gws: 'káu-hiā', gwa: '4367(1)' },
+    { from: '3', to: '1', pitch: '55', hanji: '店', s: 'tiàm', a: '3821(1)', word: '店仔', ws: 'tiàm-á', wa: '3830(1)',
+      gto: '2', gpitch: '53', gword: '店面', gws: 'tiàm-bīn', gwa: '3840(1)' },
+    { from: '4h', to: '1', pitch: '55', base: 4, note: '-h', hanji: '桌', s: 'toh', a: '6092(1)', word: '桌仔', ws: 'toh-á', wa: '6101(1)',
+      gto: '2', gpitch: '53', gword: '桌頂', gws: 'toh-tíng', gwa: '6133(1)' },
+    { from: '4ptk', to: '高促', pitch: '550', base: 4, note: '非 -h', hanji: '竹', s: 'tik', a: '2586(1)', word: '竹仔', ws: 'tik-á', wa: '2629(1)',
+      gto: '高促', gpitch: '550', gword: '竹筍', gws: 'tik-sún', gwa: '2747(1)' },
+    { from: '5', to: '7', pitch: '33', hanji: '船', s: 'tsûn', a: '7784(1)', word: '船仔', ws: 'tsûn-á', wa: '7790(1)',
+      gto: '7', gpitch: '33', gword: '船隻', gws: 'tsûn-tsiah', gwa: '24860(1)' },
+    { from: '7', to: '7', pitch: '33', hanji: '樹', s: 'tshiū', a: '11698(1)', word: '樹仔', ws: 'tshiū-á', wa: '11706(1)',
+      gto: '3', gpitch: '11', gword: '樹枝', gws: 'tshiū-ki', gwa: '11714(1)' },
+    { from: '8h', to: '7', pitch: '33', base: 8, note: '-h', hanji: '藥', s: 'io̍h', a: '12836(1)', word: '藥仔', ws: 'io̍h-á', wa: '12843(1)',
+      gto: '3', gpitch: '11', gword: '藥材', gws: 'io̍h-tsâi', gwa: '12848(1)' },
+    { from: '8ptk', to: '中促', pitch: '330', base: 8, note: '非 -h', hanji: '賊', s: 'tsha̍t', a: '10055(1)', word: '賊仔', ws: 'tsha̍t-á', wa: '10067(1)',
+      gto: '低促', gpitch: '110', gword: '賊頭', gws: 'tsha̍t-thâu', gwa: '10131(1)' },
+  ];
+
   // 音值對應的調名（變調後的音值也以調名稱呼，例如 1 → 7）
-  const PITCH_NAME = { 55: '1', 53: '2', 11: '3', 320: '4', 13: '5', 33: '7', 540: '8', 550: '高促', 110: '低促' };
+  const PITCH_NAME = { 55: '1', 53: '2', 11: '3', 320: '4', 13: '5', 33: '7', 540: '8', 550: '高促', 110: '低促', 330: '中促' };
 
   const TONE_8_NOTE = '第八調各地腔調不同，音檔以高降調為範例';
   const SANDHI_5_NOTE = '第五調變調漳腔 5→7、泉腔 5→3，音檔以漳腔為範例';
@@ -154,16 +177,16 @@
     const label = (x, y, t) => `<text class="sandhi-chart-label" x="${x}" y="${y}">${t}</text>`;
     const tr = window.LianTailo.t;
     const note = window.LianTailo.sandhiNote;
-    return `<svg class="sandhi-chart" viewBox="0 0 372 196" role="img" aria-label="${tr('sandhi.chart.aria')}">
+    return `<svg class="sandhi-chart" viewBox="17 6 372 196" role="img" aria-label="${tr('sandhi.chart.aria')}">
       <defs>
         <marker id="sandhiHead" markerUnits="userSpaceOnUse" viewBox="0 0 12 12" refX="0" refY="6" markerWidth="11" markerHeight="11" orient="auto">
           <path d="M0 1.2 L11 6 L0 10.8 Z" fill="currentColor"/>
         </marker>
       </defs>
       ${arc('M86 52 H142')}
-      ${arc('M164 74 V129')}
+      ${arc('M164 68 V125')}
       ${arc('M142 152 H87')}
-      ${arc('M64 130 V74')}
+      ${arc('M64 136 V79')}
       ${arc('M102.2 96.4 L80.3 70.9')}
       ${arc('M125.8 96.4 L147.7 70.9')}
       ${arc('M228 52 H186')}
@@ -200,7 +223,7 @@
   }
 
   window.LianTailo = Object.assign(window.LianTailo || {}, {
-    TONES, TONE_BY_NUMBER, SANDHI_RULES, PITCH_NAME, TONE_8_NOTE, SANDHI_5_NOTE, sandhiChartSvg,
+    TONES, TONE_BY_NUMBER, SANDHI_RULES, A_SANDHI_RULES, PITCH_NAME, TONE_8_NOTE, SANDHI_5_NOTE, sandhiChartSvg,
     markIndexFor, withTone, parsePitch, acceptedPitches, contourShape, contourMarkup, pitchSvg, pitchCompare, miniPitchSvg,
   });
 })();

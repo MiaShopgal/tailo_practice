@@ -3,77 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#efefef">
-  <title data-i18n="page.mistakes.doc">錯題本｜練台羅</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235c8273'/%3E%3Ctext x='32' y='46' font-size='40' text-anchor='middle' fill='white' font-family='sans-serif'%3E%C3%A1%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Iansui&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
-  <script>
-    (function () {
-      var theme = 'system';
-      try {
-        var saved = JSON.parse(localStorage.getItem('lian-tailo:settings')) || {};
-        if (saved.theme === 'light' || saved.theme === 'dark' || saved.theme === 'system') theme = saved.theme;
-      } catch (e) {}
-      var dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
-      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-      var meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', dark ? '#171c1a' : '#efefef');
-    })();
-    if ('serviceWorker' in navigator) {
-      var css = document.querySelector('link[rel="stylesheet"][href*="style.css"]');
-      var root = css ? css.getAttribute('href').replace(/css\/style\.css(?:\?.*)?$/, '') : './';
-      navigator.serviceWorker.register(root + 'sw.js');
-    }
-  </script>
-
+  <title>簿仔紙｜練台羅</title>
+  <!-- 簿仔紙已移到首頁底部導覽列，舊網址轉過去 -->
+  <meta http-equiv="refresh" content="0; url=../#notebook">
+  <script>location.replace('../#notebook');</script>
 </head>
 <body>
-  <div class="app">
-    <header class="topbar">
-      <a class="icon-btn" href="../" data-i18n-aria="nav.home" aria-label="回首頁">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
-      </a>
-      <h1 class="topbar-title" data-i18n="mistakes.title">錯題本</h1>
-      <a class="analysis-back" href="../type-2-analysis/" data-i18n="mistakes.typingAnalysis">打字錯誤分析</a>
-    </header>
-
-    <section class="sync-panel card" aria-label="Google 錯題同步">
-      <div class="sync-panel-text">
-        <strong data-i18n="sync.signIn">Google 同步</strong>
-        <span class="sync-status" data-sync-status aria-live="polite"></span>
-      </div>
-      <button class="btn btn-outline sync-button" data-sync-button type="button">Google 同步</button>
-    </section>
-
-    <p class="mistake-scope" id="scopeLabel" hidden></p>
-    <div class="chips" id="filters" role="group" data-i18n-aria="mistakes.filters" aria-label="練習" hidden></div>
-    <div class="chips chips-levels" id="levelFilters" role="group" hidden></div>
-    <section class="mistake-practice-panel card" id="practicePanel" hidden>
-      <h2 data-i18n="mistakes.practice.title">加強練習</h2>
-      <div class="mistake-practice-actions" id="practiceActions"></div>
-    </section>
-
-    <ul class="review-list card mistake-list" id="mistakeList" hidden></ul>
-
-    <div class="empty-state" id="emptyState" hidden>
-      <p class="empty-title" data-i18n="mistakes.empty.title">目前沒有錯題</p>
-      <p class="empty-text" data-i18n="mistakes.empty.text">練習時答錯的題目會自動收進這裡</p>
-      <a class="btn btn-outline" href="../" data-i18n="mistakes.go">去練習</a>
-    </div>
-
-    <div class="mistake-footer" id="footer" hidden>
-      <p class="mistake-hint" id="fixedHint" data-i18n="mistakes.fixed.hint" hidden>「已答對」表示這題答錯後，又在練習中答對了</p>
-      <button class="btn btn-ghost btn-block" id="clearBtn" type="button" data-i18n="mistakes.clear">清空錯題</button>
-    </div>
-  </div>
-
-  <script src="../js/i18n.js"></script>
-  <script src="../js/mistake-sync-core.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/tones.js"></script>
-  <script src="mistakes.js"></script>
+  <p><a href="../#notebook">簿仔紙</a></p>
 </body>
 </html>

@@ -1,3 +1,4 @@
+// 簿仔紙：首頁「簿仔紙」分頁的錯題清單
 (function () {
   'use strict';
 
@@ -217,6 +218,7 @@
   }
 
   function renderPracticeActions(records) {
+    if (!el.practicePanel || !el.practiceActions) return;
     el.practiceActions.textContent = '';
     const byUnit = new Map();
     records.forEach((record) => byUnit.set(record.unit, (byUnit.get(record.unit) || 0) + 1));
@@ -225,7 +227,7 @@
       if (!info) return;
       const link = document.createElement('a');
       link.className = 'btn btn-outline';
-      link.href = `../${info.href}?practice=mistakes`;
+      link.href = `${info.href}?practice=mistakes`;
       link.textContent = t('mistakes.practice.unit', { name: levelName(unit), n: count });
       el.practiceActions.appendChild(link);
     });
@@ -245,6 +247,8 @@
     el.footer.hidden = shown.length === 0;
     el.hint.hidden = !shown.some((m) => m.fixedAt > m.lastAt);
     el.clearBtn.textContent = filter === 'all' ? t('mistakes.clear.all') : t('mistakes.clear.scope', { scope: scopeText(filter) });
+    // 首頁導覽列的題數標記跟著更新
+    document.dispatchEvent(new CustomEvent('lian-mistakes:render', { detail: { count: all.length } }));
   }
 
   el.clearBtn.addEventListener('click', () => {

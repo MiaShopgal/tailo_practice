@@ -37,6 +37,7 @@
   <script src="../js/mistake-sync-core.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/tones.js"></script>
+  <script src="../js/help.js"></script>
   <script src="../js/quiz-shell.js"></script>
   <script src="../js/mode-typing.js"></script>
   <script>
@@ -44,7 +45,7 @@
       {
         unit: 'type-2',
         title: LianTailo.t('page.type.2'),
-        data: window.SANDHI_WORDS.filter((d) => !d.x),
+        data: LianTailo.sandhiData(),
         groupBy: (d) => d.rule,
         poolPerGroup: LianTailo.POOL_PER_GROUP.sandhiRule,
       },

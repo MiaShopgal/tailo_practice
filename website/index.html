@@ -31,17 +31,14 @@
 
 </head>
 <body>
-  <div class="app">
+  <div class="app has-tabbar">
+    <section class="tab-panel" id="panelPractice" data-tab-panel="practice">
     <header class="home-header">
       <div>
         <h1 class="home-title" data-i18n="brand.title">練台羅 Liān Tâi-lô</h1>
         <p class="home-subtitle" data-i18n="home.subtitle">一起練習基本功</p>
       </div>
       <div class="home-tools">
-        <a class="icon-btn home-tool" href="mistakes/" data-i18n-aria="home.mistakes" aria-label="錯題本">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/><path d="m10 8 4 4m0-4-4 4"/></svg>
-          <span class="count-badge home-badge" id="mistakeCount" hidden></span>
-        </a>
         <button class="icon-btn" id="settingsBtn" type="button" data-i18n-aria="home.settings" aria-label="練習設定" aria-haspopup="dialog" aria-controls="settingsSheet" aria-expanded="false">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
@@ -130,7 +127,67 @@
         </div>
       </article>
     </main>
+    </section>
+
+    <section class="tab-panel" id="panelLearn" data-tab-panel="learn" hidden>
+      <header class="tab-header">
+        <h1 class="tab-title" data-i18n="tab.learn">教材</h1>
+      </header>
+      <div class="learn-body" id="learnBody"></div>
+    </section>
+
+    <section class="tab-panel" id="panelNotebook" data-tab-panel="notebook" hidden>
+      <header class="tab-header">
+        <h1 class="tab-title" data-i18n="mistakes.title">簿仔紙</h1>
+        <a class="analysis-back" href="type-2-analysis/" data-i18n="mistakes.typingAnalysis">打字錯誤分析</a>
+      </header>
+
+      <p class="mistake-scope" id="scopeLabel" hidden></p>
+      <div class="chips" id="filters" role="group" data-i18n-aria="mistakes.filters" aria-label="練習" hidden></div>
+      <div class="chips chips-levels" id="levelFilters" role="group" hidden></div>
+      <section class="mistake-practice-panel card" id="practicePanel" hidden>
+        <h2 data-i18n="mistakes.practice.title">加強練習</h2>
+        <div class="mistake-practice-actions" id="practiceActions"></div>
+      </section>
+
+      <ul class="review-list card mistake-list" id="mistakeList" hidden></ul>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <p class="empty-title" data-i18n="mistakes.empty.title">目前沒有錯題</p>
+        <p class="empty-text" data-i18n="mistakes.empty.text">練習時答錯的題目會自動收進這裡</p>
+        <a class="btn btn-outline" href="#practice" data-tab="practice" data-i18n="mistakes.go">去練習</a>
+      </div>
+
+      <div class="mistake-footer" id="footer" hidden>
+        <p class="mistake-hint" id="fixedHint" data-i18n="mistakes.fixed.hint" hidden>「已複習」表示這題答錯後，有再次寫正確了</p>
+        <button class="btn btn-ghost btn-block" id="clearBtn" type="button" data-i18n="mistakes.clear">清空錯題</button>
+      </div>
+    </section>
   </div>
+
+  <nav class="tabbar" data-i18n-aria="aria.tabbar" aria-label="主選單">
+    <div class="tabbar-inner">
+      <a class="tabbar-item" href="#practice" data-tab="practice">
+        <span class="tabbar-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="m14.5 5.5 3 3"/></svg>
+        </span>
+        <span class="tabbar-label" data-i18n="tab.practice">練習</span>
+      </a>
+      <a class="tabbar-item" href="#learn" data-tab="learn">
+        <span class="tabbar-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.3 5 7.8 4.5 3.5 4.5v14c4.3 0 6.8.5 8.5 2 1.7-1.5 4.2-2 8.5-2v-14c-4.3 0-6.8.5-8.5 2z"/><path d="M12 6.5v14"/></svg>
+        </span>
+        <span class="tabbar-label" data-i18n="tab.learn">教材</span>
+      </a>
+      <a class="tabbar-item" href="#notebook" data-tab="notebook" id="notebookTab">
+        <span class="tabbar-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/><path d="m10 8 4 4m0-4-4 4"/></svg>
+          <span class="count-badge tabbar-badge" id="mistakeCount" hidden></span>
+        </span>
+        <span class="tabbar-label" data-i18n="mistakes.title">簿仔紙</span>
+      </a>
+    </div>
+  </nav>
 
   <div class="sheet" id="settingsSheet" hidden>
     <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
@@ -154,6 +211,13 @@
             <p class="setting-name" data-i18n="settings.count">每次練習題數</p>
           </div>
           <div class="segmented" id="countSetting" role="radiogroup" data-i18n-aria="settings.count" aria-label="每次練習題數"></div>
+        </div>
+        <div class="setting-row is-stack">
+          <div class="setting-text">
+            <p class="setting-name" data-i18n="settings.aSandhi">仔前變調</p>
+            <p class="setting-desc" data-i18n="settings.aSandhi.desc">雙音節變調練習是否加入「仔」前變調的詞</p>
+          </div>
+          <div class="segmented" id="aSandhiSetting" role="radiogroup" data-i18n-aria="settings.aSandhi" aria-label="仔前變調"></div>
         </div>
         <label class="setting-row" for="hanjiSetting">
           <div class="setting-text">
@@ -190,6 +254,9 @@
   <script src="js/i18n.js"></script>
   <script src="js/mistake-sync-core.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/tones.js"></script>
+  <script src="js/help.js"></script>
+  <script src="js/mistakes.js"></script>
   <script>
     (function () {
       const { settings, t } = LianTailo;
@@ -211,6 +278,7 @@
       const themeGroup = document.getElementById('themeSetting');
       const THEME_LABEL = { system: 'settings.theme.system', light: 'settings.theme.light', dark: 'settings.theme.dark' };
       const countGroup = document.getElementById('countSetting');
+      const aSandhiGroup = document.getElementById('aSandhiSetting');
       const hanjiSwitch = document.getElementById('hanjiSetting');
       const settingsBtn = document.getElementById('settingsBtn');
       const settingsSheet = document.getElementById('settingsSheet');
@@ -232,12 +300,62 @@
         });
       }
 
-      function updateMistakes() {
-        const n = LianTailo.mistakes.list().length;
+      const notebookTab = document.getElementById('notebookTab');
+
+      function updateMistakes(count) {
+        const n = typeof count === 'number' ? count : LianTailo.mistakes.list().length;
         badge.hidden = n === 0;
         badge.textContent = n;
-        badge.parentElement.setAttribute('aria-label', n ? t('home.mistakes.count', { n }) : t('home.mistakes'));
+        if (n) notebookTab.setAttribute('aria-label', t('home.mistakes.count', { n }));
+        else notebookTab.removeAttribute('aria-label');
       }
+      document.addEventListener('lian-mistakes:render', (e) => updateMistakes(e.detail.count));
+
+      // ---------- 底部導覽列：練習／教材／簿仔紙 ----------
+      const TABS = ['practice', 'learn', 'notebook'];
+      const tabScroll = {};
+      let currentTab = null;
+
+      function tabFromHash() {
+        const name = location.hash.slice(1);
+        return TABS.includes(name) ? name : 'practice';
+      }
+
+      function showTab(name, updateUrl) {
+        if (name === currentTab) {
+          if (updateUrl) window.scrollTo(0, 0);
+          return;
+        }
+        if (currentTab) tabScroll[currentTab] = window.scrollY;
+        currentTab = name;
+        document.querySelectorAll('[data-tab-panel]').forEach((panel) => {
+          panel.hidden = panel.dataset.tabPanel !== name;
+        });
+        document.querySelectorAll('.tabbar-item').forEach((item) => {
+          const on = item.dataset.tab === name;
+          item.classList.toggle('is-active', on);
+          if (on) item.setAttribute('aria-current', 'page');
+          else item.removeAttribute('aria-current');
+        });
+        if (updateUrl) {
+          // 換分頁不疊加瀏覽紀錄，按返回鍵直接離開首頁
+          history.replaceState(null, '', name === 'practice' ? location.pathname + location.search : '#' + name);
+        }
+        window.scrollTo(0, tabScroll[name] || 0);
+      }
+
+      document.querySelectorAll('[data-tab]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          showTab(link.dataset.tab, true);
+        });
+      });
+      window.addEventListener('hashchange', () => showTab(tabFromHash(), false));
+
+      const learnBody = document.getElementById('learnBody');
+      learnBody.innerHTML = LianTailo.help.tabsMarkup() + '<div class="learn-panels">' + LianTailo.help.panelsMarkup() + '</div>';
+      LianTailo.help.build(learnBody);
+      showTab(tabFromHash(), false);
 
       function renderSettings() {
         const s = settings.get();
@@ -285,6 +403,20 @@
             renderSettings();
           });
           countGroup.appendChild(btn);
+        });
+        aSandhiGroup.textContent = '';
+        settings.A_SANDHI_OPTIONS.forEach((code) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', String(code === s.aSandhi));
+          btn.className = code === s.aSandhi ? 'is-active' : '';
+          btn.textContent = t('settings.aSandhi.' + code);
+          btn.addEventListener('click', () => {
+            settings.set({ aSandhi: code });
+            renderSettings();
+          });
+          aSandhiGroup.appendChild(btn);
         });
         hanjiSwitch.checked = s.showHanji;
       }

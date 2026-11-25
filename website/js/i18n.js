@@ -18,7 +18,7 @@
 
     'home.subtitle': { zh: '一起練習基本功', tai: '共基本工夫練予在' },
     'home.mistakes': { zh: '錯題本', tai: '簿仔紙' },
-    'home.mistakes.count': { zh: '錯題本，{n} 題', tai: '寫毋著的題目，{n} 條' },
+    'home.mistakes.count': { zh: '簿仔紙，{n} 題', tai: '簿仔紙，{n} 條' },
     'mistakes.typingAnalysis': { zh: '打字錯誤分析', tai: '練拍字錯誤分析' },
     'mistakes.practice.title': { zh: '加強練習', tai: '加強練習' },
     'mistakes.practice.unit': { zh: '加強練習・{name}（{n} 題）', tai: '加強練習・{name}（{n} 條）' },
@@ -48,6 +48,9 @@
     'analysis.empty': { zh: '目前沒有台羅打字錯誤紀錄。', tai: '目前猶未有台羅打字錯誤紀錄。' },
     'analysis.practice': { zh: '去練習', tai: '去練習' },
     'home.settings': { zh: '練習設定', tai: '練習設定' },
+    'tab.practice': { zh: '練習', tai: '練習' },
+    'tab.learn': { zh: '教材', tai: '教材' },
+    'aria.tabbar': { zh: '主選單', tai: '主選單' },
     'home.start': { zh: '開始{name}，{level}', tai: '開始{name}，{level}' },
     'sync.signIn': { zh: 'Google 同步', tai: 'Google 同步' },
     'sync.signOut': { zh: '登出', tai: '登出' },
@@ -94,7 +97,6 @@
     'page.type.1': { zh: '練打字・單音節', tai: '練拍字・單音節' },
     'page.type.2': { zh: '練打字・雙音節', tai: '練拍字・雙音節' },
     'page.doc': { zh: '{title}｜{brand}', tai: '{title}｜{brand}' },
-    'page.mistakes.doc': { zh: '錯題本｜練台羅', tai: '寫毋著的題目｜練台羅' },
 
     'settings.lang': { zh: '介面語言', tai: '介面語言' },
     'settings.theme': { zh: '外觀', tai: '外觀' },
@@ -102,8 +104,17 @@
     'settings.theme.light': { zh: '淺色', tai: '淺色' },
     'settings.theme.dark': { zh: '深色', tai: '深色' },
     'settings.count': { zh: '每次練習題數', tai: '逐改練習題目數' },
+    'settings.aSandhi': { zh: '仔前變調', tai: '仔前變調' },
+    'settings.aSandhi.desc': { zh: '雙音節變調練習是否加入「仔」前變調的詞', tai: '雙音節變調練習敢欲加入「仔」頭前變調的詞' },
+    'settings.aSandhi.off': { zh: '關', tai: '關' },
+    'settings.aSandhi.on': { zh: '開', tai: '開' },
+    'settings.aSandhi.drill': { zh: '特訓', tai: '特訓' },
     'settings.hanji': { zh: '題目顯示漢字', tai: '題目顯示漢字' },
     'settings.hanji.desc': { zh: '題目是否顯示對應漢字', tai: '題目敢愛顯示對應漢字' },
+    'settings.sync': { zh: '登入同步紀錄', tai: '登入同步紀錄' },
+    'settings.sync.desc': { zh: '用 Google 帳號登入，同步你的學習進度', tai: '用 Google 口座登入，同步你的學習進度' },
+    'settings.sync.out': { zh: '登出', tai: '登出' },
+    'settings.sync.as': { zh: '已用 {name} 登入，紀錄會自動同步', tai: '已經用 {name} 登入，紀錄會自動同步' },
     'settings.install': { zh: '安裝到主畫面', tai: '安裝去主畫面' },
     'settings.install.desc': { zh: '加到手機主畫面，像 App 一樣打開', tai: '共網頁加起去主畫面，會得通像 App 咧操作' },
     'settings.install.ready': { zh: '加到主畫面，像 App 一樣打開', tai: '加入主畫面，親像 App 咧操作' },
@@ -143,7 +154,7 @@
     'quiz.correct': { zh: '答對了', tai: '正確' },
     'quiz.tap': { zh: '點一下喇叭播放音檔', tai: '揤喇叭放送音檔' },
     'quiz.audio.fail': { zh: '音檔載入失敗，請確認網路連線', tai: '音檔載入失敗，請閣確認你的網路' },
-    'quiz.review.title': { zh: '這輪答錯的題目（已加入錯題本）', tai: '這回寫毋著的題目（已經記錄佇簿仔紙）' },
+    'quiz.review.title': { zh: '這輪答錯的題目（已加入簿仔紙）', tai: '這回寫毋著的題目（已經記錄佇簿仔紙）' },
     'quiz.yours': { zh: '你的答案：{answer}', tai: '你的答案：{answer}' },
     'quiz.result.perfect': { zh: '全部答對，真厲害！', tai: '全部攏正確，gâu呢！' },
     'quiz.result.great': { zh: '表現很好，繼續保持', tai: '表現真好，愛繼續保持' },
@@ -163,6 +174,7 @@
     'toneName.8': { zh: '陽入', tai: '陽入' },
     'pitch.high': { zh: '高促', tai: '高促' },
     'pitch.low': { zh: '低促', tai: '低促' },
+    'pitch.mid': { zh: '中促', tai: '中促' },
     'pitch.correct': { zh: '正解', tai: '答案' },
     'pitch.yours': { zh: '你選', tai: '你揀' },
     'note.tone8': { zh: '第八調各地腔調不同，音檔以高降調為範例', tai: '第八調無仝所在腔口無仝，音檔以高降調做例' },
@@ -189,6 +201,7 @@
     'pitch.wrong.need': { zh: '前字要變調', tai: '頭前愛變調' },
     'pitch.wrong.first': { zh: '前字變調不正確', tai: '頭前變調毋著' },
     'pitch.wrong.both': { zh: '前字和後字都不正確', tai: '頭前後壁攏毋著' },
+    'pitch.meta.aSandhi': { zh: '前字仔前變調 {rule}', tai: '前字仔前變調 {rule}' },
     'pitch.meta.sandhi': { zh: '前字變調 {rule}・後字第 {n} 調', tai: '頭前變調 {rule}・後字是第 {n} 調' },
     'pitch.choice': { zh: '選項 {n}', tai: '選項 {n}' },
 
@@ -225,10 +238,14 @@
     'help.mark.p3': { zh: '<span class="roman">iu</span> 和 <span class="roman">ui</span> ，調符標在後面那個字母。', tai: '<span class="roman">iu</span> 佮 <span class="roman">ui</span> ，調符標佇後壁的字母。' },
     'help.mark.plain': { zh: '第 1 調以及第 4 調（<span class="roman">-p、-t、-k、-h</span> 結尾）不標調符。例如 <span class="roman">ka</span>、<span class="roman">kah</span>、<span class="roman">kak</span>。',
        tai: '第 1 調閣有第 4 調（<span class="roman">-p、-t、-k、-h</span> 結尾）毋免標調符。像 <span class="roman">ka</span>、<span class="roman">kah</span>、<span class="roman">kak</span>。' },
-    'help.sandhi.lead': { zh: '箭頭指向變調後的調。例詞的前字是變調後的音值，後面是這個字單獨唸的本調音。', 
-      tai: '箭頭代表變調後的調值。例詞的前字是變調後的音值，後壁是這字單獨唸的本調音。' },
+    'help.sandhi.lead': { zh: '箭頭指向變調後的調。例詞的前字讀變調音，後字讀本調音。', 
+      tai: '箭頭代表變調後的調值。例詞的頭前字讀變調音，後壁字讀本調音。' },
     'help.sandhi.tail': { zh: '第五調變調漳腔 5→7、泉腔 5→3。第 4、8 調收 <span class="roman">-h</span> 會拉長變舒聲；收 <span class="roman">-p、-t、-k</span> 仍是促音，第 4 調變高促音，第 8 調變低促音。', 
       tai: '第五調變調漳腔 5→7、泉腔 5→3。第 4、8 調收 <span class="roman">-h</span> 會搝長變舒聲；收 <span class="roman">-p、-t、-k</span> 猶是促音，第 4 調變高促音，第 8 調變低促音。' },
+    'help.tab.aSandhi': { zh: '仔前變調', tai: '仔前變調' },
+    'help.aSandhi.lead': { zh: '在「仔」的前面的音節有特殊的變調規則，第 3 4 7 8 調和一般變調不一樣，比較下方的字詞：', tai: '佇「仔」頭前的音節有特殊的變調規則，第 3 4 7 8 調佮一般變調無仝，比較下跤的字詞：' },
+    'aSandhi.col.a': { zh: '仔前 {name}', tai: '仔前 {name}' },
+    'aSandhi.col.general': { zh: '一般 {name}', tai: '一般 {name}' },
     'sandhi.changed': { zh: '變調 {name}', tai: '變調 {name}' },
     'sandhi.base': { zh: '本調 {name}', tai: '本調 {name}' },
     'sandhi.missing': { zh: '無音檔', tai: '無音檔' },
@@ -239,13 +256,13 @@
     'sandhi.chart.aria': { zh: '變調記憶圖。循環是 1 → 7 → 3 → 2 → 1。第 5 調漳腔變 7、泉腔變 3。第 4 調收 -h 變 2，否則變高促。第 8 調收 -h 變 3，否則變低促。', 
       tai: '變調記憶圖。循環是 1 → 7 → 3 → 2 → 1。第 5 調漳腔變 7、泉腔變 3。第 4 調收 -h 變 2，其他變高促音。第 8 調收 -h 變 3，其他變低促音。' },
 
-    'mistakes.title': { zh: '錯題本', tai: '簿仔紙' },
+    'mistakes.title': { zh: '簿仔紙', tai: '簿仔紙' },
     'mistakes.empty.title': { zh: '目前沒有錯題', tai: '目前無寫毋著的題目' },
     'mistakes.empty.text': { zh: '練習時答錯的題目會自動收進這裡', tai: '寫毋著的題目會自動收入來遮' },
     'mistakes.go': { zh: '去練習', tai: '去練習' },
     'mistakes.fixed.hint': { zh: '「已複習」表示這題答錯後，有再次寫正確了', tai: '「有複習矣」代表這條寫毋著了後，有閣再寫正確矣' },
     'mistakes.clear': { zh: '清空錯題', tai: '共簿仔紙拭予白' },
-    'mistakes.clear.all': { zh: '清空錯題本', tai: '共簿仔紙拭予白' },
+    'mistakes.clear.all': { zh: '清空簿仔紙', tai: '共簿仔紙拭予白' },
     'mistakes.clear.scope': { zh: '清空{scope}', tai: '共{scope}攏挕捒' },
     'mistakes.clear.confirm': { zh: '確定要清空{scope}嗎？', tai: '欲共{scope}攏挕捒？' },
     'mistakes.all': { zh: '全部', tai: '全部' },
@@ -253,7 +270,7 @@
     'mistakes.scope.named': { zh: '「{name}」的錯題', tai: '「{name}」的簿仔紙' },
     'mistakes.filters': { zh: '練習', tai: '練習' },
     'mistakes.levels': { zh: '{name}的分類', tai: '{name}的分類' },
-    'mistakes.remove': { zh: '移出錯題本', tai: '攏挕捒簿仔紙' },
+    'mistakes.remove': { zh: '移出簿仔紙', tai: '攏挕捒簿仔紙' },
     'mistakes.times': { zh: '錯 {n} 次・{date}', tai: '寫毋著 {n} 改・{date}' },
     'mistakes.fixed': { zh: '已複習', tai: '有複習矣' },
     'date.today': { zh: '今天', tai: '今仔日' },
@@ -303,6 +320,7 @@
     const n = map[pitch];
     if (n === '高促') return t('pitch.high');
     if (n === '低促') return t('pitch.low');
+    if (n === '中促') return t('pitch.mid');
     if (n) return t('tone.nth', { n });
     return String(pitch);
   }
@@ -314,6 +332,7 @@
     if (note === '泉') return t('sandhi.note.chuan');
     if (note === '高促') return t('pitch.high');
     if (note === '低促') return t('pitch.low');
+    if (note === '中促') return t('pitch.mid');
     return note || '';
   }
 
